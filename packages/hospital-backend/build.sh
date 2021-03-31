@@ -16,7 +16,6 @@ ncc -m build app.ts -C -o releases \
   -e sql.js \
   -e mssql \
   -e express \
-  -e app-root-path \
   -e body-parser \
   -e kcors \
   -e cors
