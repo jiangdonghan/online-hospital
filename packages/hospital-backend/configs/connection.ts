@@ -6,7 +6,7 @@ import { createConnection } from 'typeorm'
 const connectionOptions = require('ormconfig')
 ;(async () => {
   const connection = await createConnection({
-    ...connectionOptions,
+    ...connectionOptions.DBConfig,
     entities: Object.keys(entities).map(name => entities[name]),
   })
   if (connection.isConnected) {

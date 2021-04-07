@@ -5,8 +5,7 @@
  *
  */
 import Environment from 'configs/environments'
-
-module.exports = {
+export const DBConfig = {
   type: Environment.DB_TYPE,
   host: Environment.MY_HOST,
   port: Environment.MY_PORT,
