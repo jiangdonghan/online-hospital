@@ -40,7 +40,7 @@
     "koa-onerror": "^4.1.0",
     "koa-router": "^8.0.8",
     "mongodb": "^3.5.7",
-    "mysql2": "^2.2.5",
+    "mysql": "^2.18.1",
     "otpauth": "^6.2.3",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.8.1",
