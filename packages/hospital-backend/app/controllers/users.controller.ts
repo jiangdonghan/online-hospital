@@ -16,7 +16,9 @@ export class UsersController {
 
   @Get('/users')
   async getUsers(@QueryParam('pageSize') pageSize: number) {
+    console.log('pageSize:', pageSize)
     const entities = getManager()
+    console.log('aaaaaaaaa')
     const result = await entities.findAndCount(User)
     return { elements: result[0], count: result[1] }
   }
