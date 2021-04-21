@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const useUsers = () => {
   const [users, setUsers] = useState([]);
 
   const fetchUsersAndUpdate = async () => {
-    const response = await fetch("http://localhost:5099/apis/users", {
+    const response = await fetch(`${apiUrl}/apis/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,9 +25,6 @@ const useUsers = () => {
 
 const UserList: React.FC = () => {
   const users = useUsers();
-
-  console.log(users);
-
   return users.length ? (
     <div>
       {users.map((user: any) => {
