@@ -2,7 +2,6 @@ import { Body, Get, JsonController, Post, QueryParam } from 'routing-controllers
 import { Doctor, Patient } from '../entities'
 import { getRepository } from 'typeorm'
 import { Role } from '../../../common/model/userModel'
-import Environment from '../../configs/environments'
 import { UserService } from '../services'
 
 @JsonController()
