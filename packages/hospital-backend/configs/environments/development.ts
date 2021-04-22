@@ -7,4 +7,5 @@ export default {
   USERNAME: 'root',
   PASSWORD: '',
   DATABASE: 'hospital',
+  JWT_SECRET: 'QWSF43Fds3',
 }

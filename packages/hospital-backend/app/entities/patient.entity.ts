@@ -1,4 +1,3 @@
-import { MinLength, IsNotEmpty } from 'class-validator'
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 /**
@@ -7,8 +6,8 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
  * How to auto validaing? see: https://github.com/typestack/routing-controllers#auto-validating-action-params
  */
 
-@Entity('users')
-export class User extends BaseEntity {
+@Entity('patient')
+export class Patient extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -22,7 +21,7 @@ export class User extends BaseEntity {
   passwordHash: string
 
   @Column()
-  role: string
+  deleted: boolean
 
   @Column()
   createdAt: Date

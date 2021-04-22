@@ -1,2 +1,3 @@
 export * from './sessions.entity'
-export * from './users.entity'
+export * from './patient.entity'
+export * from './doctor.entity'
