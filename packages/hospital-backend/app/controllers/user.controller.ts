@@ -1,33 +1,46 @@
-import { Body, Get, JsonController, Post, QueryParam } from 'routing-controllers'
-import { Doctor, Patient } from '../entities'
-import { getRepository } from 'typeorm'
+import { Body, Get, JsonController, Post, QueryParams } from 'routing-controllers'
 import { Role } from '../../../common/model/userModel'
 import { UserService } from '../services'
+import { IsEmail, IsEnum, MinLength } from 'class-validator'
+
+export class UserRegisterParams {
+  @MinLength(3, { message: 'Name is too short' })
+  name: string
+
+  @IsEnum(Role)
+  role: Role
+
+  @MinLength(6, { message: 'Password is too short' })
+  passwordHash: string
+
+  @IsEmail()
+  email: string
+}
+
+export class UserLoginParams {
+  @IsEnum(Role)
+  role: Role
+
+  @MinLength(6, { message: 'Password is too short' })
+  passwordHash: string
+
+  @IsEmail()
+  email: string
+}
 
 @JsonController()
 export class UserController {
   constructor() {}
-  @Post('/users')
-  async post(@Body() params: Patient) {
-    let user = new Patient()
-    user.name = params.name
-    user.email = params.email
-    user.passwordHash = params.passwordHash || ''
-    await user.save()
-    return user
-  }
 
   @Post('/register')
-  async register(@Body() params: Patient | Doctor, @QueryParam('role') role: Role) {
-    const userService = new UserService(role)
-    return userService.create(params)
+  async register(@Body() params: UserRegisterParams) {
+    const userService = new UserService(params.role)
+    return await userService.create(params)
   }
 
-  @Get('/users')
-  async getUsers(@QueryParam('pageSize') pageSize: number) {
-    const entities = getRepository(Patient)
-    const result = await entities.findAndCount()
-    return { elements: result[0], count: result[1] }
+  @Get('/login')
+  async login(@QueryParams() params: UserLoginParams) {
+    const userService = new UserService(params.role)
+    return await userService.login(params)
   }
 }
-const a = new UserController()

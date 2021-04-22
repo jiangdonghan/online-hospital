@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 import { Doctor, Patient } from 'app/entities'
 import { Role } from '../../../common/model/userModel'
 import Environment from '../../configs/environments'
+import { UserLoginParams, UserRegisterParams } from '../controllers'
 
 const jwt = require('jsonwebtoken')
 
@@ -20,7 +21,7 @@ export class UserService {
     }
   }
 
-  async create(params: Doctor | Patient) {
+  async create(params: UserRegisterParams) {
     let user = null
     if (this.role === Role.PATIENT) {
       user = new Patient()
@@ -40,6 +41,26 @@ export class UserService {
         Environment.JWT_SECRET,
         { expiresIn: '60days' },
       ),
+    }
+  }
+
+  async login(params: UserLoginParams) {
+    let user = await this.repository.findOne({
+      email: params.email,
+      passwordHash: params.passwordHash,
+    })
+
+    if (user) {
+      return {
+        ...user,
+        token: jwt.sign(
+          { role: this.role, name: user.name, email: user.email },
+          Environment.JWT_SECRET,
+          { expiresIn: '60days' },
+        ),
+      }
+    } else {
+      throw new Error('Invalid username or password')
     }
   }
 }
