@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, Post, QueryParams } from 'routing-controllers'
+import { Body, Get, JsonController, Post } from 'routing-controllers'
 import { Role } from '../../../common/model/userModel'
 import { UserService } from '../services'
 import { IsEmail, IsEnum, MinLength } from 'class-validator'
@@ -11,7 +11,7 @@ export class UserRegisterParams {
   role: Role
 
   @MinLength(6, { message: 'Password is too short' })
-  passwordHash: string
+  password: string
 
   @IsEmail()
   email: string
@@ -22,7 +22,7 @@ export class UserLoginParams {
   role: Role
 
   @MinLength(6, { message: 'Password is too short' })
-  passwordHash: string
+  password: string
 
   @IsEmail()
   email: string
@@ -38,8 +38,8 @@ export class UserController {
     return await userService.create(params)
   }
 
-  @Get('/login')
-  async login(@QueryParams() params: UserLoginParams) {
+  @Post('/login')
+  async login(@Body() params: UserLoginParams) {
     const userService = new UserService(params.role)
     return await userService.login(params)
   }

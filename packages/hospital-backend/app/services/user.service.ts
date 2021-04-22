@@ -4,6 +4,8 @@ import { Doctor, Patient } from 'app/entities'
 import { Role } from '../../../common/model/userModel'
 import Environment from '../../configs/environments'
 import { UserLoginParams, UserRegisterParams } from '../controllers'
+import { encryptPassword } from '../utils'
+import { HttpError } from 'routing-controllers'
 
 const jwt = require('jsonwebtoken')
 
@@ -32,10 +34,11 @@ export class UserService {
     }
     user.name = params.name
     user.email = params.email
-    user.passwordHash = params.passwordHash || ''
+    user.passwordHash = encryptPassword(params.password) || ''
     await user.save()
     return {
       ...user,
+      role: this.role,
       token: jwt.sign(
         { role: this.role, name: user.name, email: user.email },
         Environment.JWT_SECRET,
@@ -47,12 +50,13 @@ export class UserService {
   async login(params: UserLoginParams) {
     let user = await this.repository.findOne({
       email: params.email,
-      passwordHash: params.passwordHash,
+      passwordHash: encryptPassword(params.password),
     })
 
     if (user) {
       return {
         ...user,
+        role: this.role,
         token: jwt.sign(
           { role: this.role, name: user.name, email: user.email },
           Environment.JWT_SECRET,
@@ -60,7 +64,7 @@ export class UserService {
         ),
       }
     } else {
-      throw new Error('Invalid username or password')
+      throw new HttpError(400, 'Invalid username or password')
     }
   }
 }

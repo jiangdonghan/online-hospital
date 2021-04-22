@@ -7,6 +7,13 @@ export interface UserModel {
   updatedAt: string;
 }
 
+export interface User {
+  name: string;
+  email: string;
+  role: Role;
+  token: string;
+}
+
 export enum Role {
   "PATIENT" = "PATIENT",
   "DOCTOR" = "DOCTOR",
