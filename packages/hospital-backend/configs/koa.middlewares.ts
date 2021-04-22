@@ -16,8 +16,7 @@ export const useMiddlewares = <T extends Koa>(app: T): T => {
   app.use(async (ctx, next) => {
     await next()
     if (ctx.status !== 200) {
-      console.log(ctx.response)
-      throw new Error(ctx.message)
+      console.log(ctx.response.body)
     }
   })
 
