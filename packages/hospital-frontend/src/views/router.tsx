@@ -1,11 +1,13 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import UserList from "./index";
+import { UnauthenticatedApp } from "./login";
+import Index from "./index";
 
 const Root: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/" exact component={UserList} />
+      <Route path="/" exact component={Index} />
+      <Route path="/login" exact component={UnauthenticatedApp} />
     </Switch>
   </BrowserRouter>
 );

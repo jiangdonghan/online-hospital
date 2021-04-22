@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   *,
@@ -18,6 +18,15 @@ const GlobalStyles = createGlobalStyle`
   body {
     box-sizing: border-box;
   }
-`
+  
 
-export default GlobalStyles
+  /*
+  viewport height
+  */
+  html body #root .App{
+    min-height: 100vh;
+  }
+
+`;
+
+export default GlobalStyles;

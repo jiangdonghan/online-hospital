@@ -1,0 +1,65 @@
+import { RegisterForm, useAuth } from "../../context/auth-context";
+import React from "react";
+import { Form, Input, Radio } from "antd";
+import { LongButton } from "./index";
+import { Role } from "../../hooks/user";
+import { LoginHead, LoginTitle } from "./login";
+import { useHistory } from "react-router-dom";
+
+export const RegisterScreen = () => {
+  const { register } = useAuth();
+  let history = useHistory();
+  const userOptions = [
+    { label: "Patient", value: "PATIENT" },
+    { label: "Doctor", value: "DOCTOR" },
+  ];
+  const handleSubmit = (values: RegisterForm) => {
+    console.log(values);
+    register(values)
+      .then(() => {
+        history.replace("/");
+      })
+      .catch(() => {
+        alert("Invalid password or password");
+      });
+  };
+
+  return (
+    <div>
+      <Form onFinish={handleSubmit}>
+        <LoginHead>
+          <LoginTitle>{"Register"}</LoginTitle>
+          <Form.Item name={"role"} initialValue={Role.PATIENT}>
+            <Radio.Group
+              options={userOptions}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Form.Item>
+        </LoginHead>
+        <Form.Item
+          name={"name"}
+          rules={[{ required: true, message: "Please enter your username" }]}
+        >
+          <Input type="text" placeholder={"username"} id={"name"} />
+        </Form.Item>
+        <Form.Item
+          name={"email"}
+          rules={[{ required: true, message: "Please enter your email" }]}
+        >
+          <Input type="text" placeholder={"email"} id={"email"} />
+        </Form.Item>
+        <Form.Item
+          name={"password"}
+          rules={[{ required: true, message: "Please enter your password" }]}
+        >
+          <Input type="password" id={"password"} placeholder={"password"} />
+        </Form.Item>
+
+        <LongButton htmlType={"submit"} type={"primary"}>
+          Register
+        </LongButton>
+      </Form>
+    </div>
+  );
+};

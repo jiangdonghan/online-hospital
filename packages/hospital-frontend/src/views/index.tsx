@@ -1,39 +1,47 @@
-import React, { useState, useEffect } from "react";
-
-const apiUrl = process.env.REACT_APP_API_URL;
-
-const useUsers = () => {
-  const [users, setUsers] = useState([]);
-
-  const fetchUsersAndUpdate = async () => {
-    const response = await fetch(`${apiUrl}/apis/users`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    setUsers(result.elements);
-  };
-
-  useEffect(() => {
-    fetchUsersAndUpdate();
-  }, []);
-
-  return users;
-};
-
-const UserList: React.FC = () => {
-  const users = useUsers();
-  return users.length ? (
+import React from "react";
+import { Button, Card } from "antd";
+import styled from "styled-components";
+import { useAuth } from "../context/auth-context";
+import { Link } from "react-router-dom";
+const Index: React.FC = () => {
+  const { user, logout } = useAuth();
+  console.log(user);
+  return user ? (
     <div>
-      {users.map((user: any) => {
-        return <div key={user.id}>{`${user.name}:${user.email}`}</div>;
-      })}
+      <Card>{user?.role}</Card>
+      <Card>{user?.email}</Card>
+      <Card>{user?.name}</Card>
+      <Button onClick={logout}>Logout</Button>
     </div>
   ) : (
-    <div>no users</div>
+    <div>
+      <Card>no user</Card>
+      <Link to={"login"}>
+        <Button onClick={logout}>Log In</Button>
+      </Link>
+    </div>
   );
 };
 
-export default UserList;
+export default Index;
+
+export const Row = styled.div<{
+  gap?: number | boolean;
+  between?: boolean;
+  marginBottom?: number;
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: ${(props) => (props.between ? "space-between" : undefined)};
+  margin-bottom: ${(props) => props.marginBottom || 0 + "rem"};
+  > * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-right: ${(props: any) =>
+      typeof props.gap === "number"
+        ? props.gap + "rem"
+        : props.gap
+        ? "2rem"
+        : undefined};
+  }
+`;
