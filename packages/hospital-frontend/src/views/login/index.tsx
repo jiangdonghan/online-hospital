@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { RegisterScreen } from "./register";
 import { LoginScreen } from "./login";
+import SoftwareLogo from "assets/logo.svg";
+import Left from "assets/login/left.svg";
+import Right from "assets/login/right.svg";
 import { Button, Card, Divider } from "antd";
 import styled from "@emotion/styled";
 
@@ -30,6 +33,7 @@ export const UnauthenticatedApp = () => {
 };
 
 const Header = styled.div`
+  background: url(${SoftwareLogo}) no-repeat center;
   padding: 5rem 0;
   background-size: 8rem;
   width: 100%;
@@ -44,6 +48,7 @@ const Background = styled.div`
   background-position: left bottom, right bottom;
   background-size: calc(((100vw - 40rem) / 2) - 3.2rem),
     calc(((100vw - 40rem) / 2) - 3.2rem), cover;
+  background-image: url(${Right}), url(${Left});
 `;
 
 const Container = styled.div`
