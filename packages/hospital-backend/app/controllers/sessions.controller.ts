@@ -1,6 +1,6 @@
 import { Get, JsonController, QueryParams } from 'routing-controllers'
 import Environment from 'configs/environments'
-import { Role } from '../../../common/model/userModel'
+import { Role } from '@jiangdonghan/common/model/userModel'
 import { IsEnum, MinLength } from 'class-validator'
 class GetUsersQuery {
   @MinLength(3, { message: 'Name is too short' })

@@ -2,9 +2,9 @@ import React from "react";
 import { LoginForm, useAuth } from "../../context/auth-context";
 import { Form, Input, Radio } from "antd";
 import { LongButton } from "./index";
-import styled from "styled-components";
 import { Role } from "../../hooks/user";
 import { useHistory } from "react-router-dom";
+import styled from "@emotion/styled";
 
 export const LoginScreen = () => {
   const userOptions = [

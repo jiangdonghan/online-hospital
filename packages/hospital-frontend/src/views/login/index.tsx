@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RegisterScreen } from "./register";
 import { LoginScreen } from "./login";
 import { Button, Card, Divider } from "antd";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);

@@ -1,7 +1,8 @@
 import React, { Suspense } from "react";
 import PagesRouter from "./views/router";
-import GlobalStyles from "./globalStyles";
+
 import { AppProviders } from "./context";
+import { GlobalStyles } from "./globalStyles";
 const App: React.FC = () => {
   return (
     <AppProviders>
