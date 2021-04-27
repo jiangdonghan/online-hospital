@@ -10,7 +10,7 @@ export interface ServiceProps {
 export const SingleService = (props: ServiceProps) => {
   const { logo, header, content } = props;
   return (
-    <ServiceCard hoverable>
+    <ServiceCard hoverable key={header}>
       <img src={`${logo}`} alt={"logo"} />
       <Header>{header}</Header>
       <Intro>{content}</Intro>

@@ -11,6 +11,7 @@ export const TeamMember = (props: TeamMemberProps) => {
   const { logo, name, spcialist } = props;
   return (
     <MemberCard
+      key={name}
       cover={<img alt="example" src={logo} width={260} height={300} />}
     >
       <Header>{name}</Header>
