@@ -15,14 +15,14 @@ export const UnauthenticatedApp = () => {
       <Header />
       <Background />
       <ShadowCard>
-        {error ? (
-          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-        ) : null}
         {isRegister ? (
           <RegisterScreen onError={setError} />
         ) : (
           <LoginScreen onError={setError} />
         )}
+        {error ? (
+          <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+        ) : null}
         <Divider />
         <Button
           type={"link"}
