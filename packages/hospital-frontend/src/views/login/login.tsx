@@ -6,7 +6,11 @@ import { Role } from "../../hooks/user";
 import { useHistory } from "react-router-dom";
 import styled from "@emotion/styled";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const userOptions = [
     { label: "Patient", value: "PATIENT" },
     { label: "Doctor", value: "DOCTOR" },
@@ -18,8 +22,8 @@ export const LoginScreen = () => {
       .then(() => {
         history.replace("/");
       })
-      .catch(() => {
-        alert("Invalid password or password");
+      .catch((e) => {
+        onError(e);
       });
   };
   return (

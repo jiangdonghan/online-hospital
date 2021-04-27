@@ -6,7 +6,11 @@ import { Role } from "../../hooks/user";
 import { LoginHead, LoginTitle } from "./login";
 import { useHistory } from "react-router-dom";
 
-export const RegisterScreen = () => {
+export const RegisterScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const { register } = useAuth();
   let history = useHistory();
   const userOptions = [
@@ -19,8 +23,8 @@ export const RegisterScreen = () => {
       .then(() => {
         history.replace("/");
       })
-      .catch(() => {
-        alert("Invalid password or password");
+      .catch((e) => {
+        onError(e);
       });
   };
 
