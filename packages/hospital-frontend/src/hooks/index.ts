@@ -16,12 +16,12 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
   });
   return result;
 };
-
+// eslint-disable-next-line
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
     //TODO add callback to dependency will lead to infinite loop, useCallback / useMemo 有关系
-  }, []);
+  }, [callback]);
 };
 
 export const useDebounce = <V>(value: V, delay?: number) => {
