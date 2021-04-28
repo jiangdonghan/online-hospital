@@ -21,6 +21,12 @@ export class Patient extends BaseEntity {
   passwordHash: string
 
   @Column()
+  avatar: string
+
+  @Column()
+  infoDataStr: string
+
+  @Column()
   deleted: boolean
 
   @Column()

@@ -1,4 +1,5 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm'
+import { DoctorInfo } from './doctor-info.entity'
 
 @Entity('doctor')
 export class Doctor extends BaseEntity {
@@ -15,6 +16,9 @@ export class Doctor extends BaseEntity {
   passwordHash: string
 
   @Column()
+  avatar: string
+
+  @Column()
   isValid: boolean
 
   @Column()
@@ -28,4 +32,9 @@ export class Doctor extends BaseEntity {
 
   @Column()
   updatedAt: Date
+
+  @OneToOne(type => DoctorInfo, doctorInfo => doctorInfo.doctorId, {
+    cascade: true,
+  })
+  doctorInfo: DoctorInfo
 }
