@@ -3,6 +3,7 @@ import * as auth from "../providers/auth-provider";
 import { useMount } from "../hooks";
 import { User } from "../../../common/model/userModel";
 import { Role } from "../hooks/user";
+import { info, success } from "../hooks/utils";
 const jwt = require("jsonwebtoken");
 const AuthContext = React.createContext<
   | {
@@ -40,17 +41,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = (form: LoginForm) => {
-    return auth.login(form).then(setUser);
+    return auth
+      .login(form)
+      .then(setUser)
+      .then(() => {
+        success("Successfully Logged In");
+      });
   };
 
   const register = (form: RegisterForm) => {
-    return auth.register(form).then(setUser);
+    return auth
+      .register(form)
+      .then(setUser)
+      .then(() => {
+        success("Successfully Registered");
+      });
   };
 
   const logout = () => {
-    return auth.logout().then(() => {
-      setUser(null);
-    });
+    return auth
+      .logout()
+      .then(() => {
+        setUser(null);
+      })
+      .then(() => {
+        success("Successfully Logged Out");
+      });
   };
 
   useMount(() => {
