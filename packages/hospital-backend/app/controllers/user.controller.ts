@@ -2,7 +2,7 @@ import { Body, Get, JsonController, Post, Put } from 'routing-controllers'
 import { Role } from '../../../common/model/userModel'
 import { UserService } from '../services'
 import { IsEmail, IsEnum, MinLength } from 'class-validator'
-import { DoctorInfo } from '../entities/doctor-info.entity'
+import { DoctorInfo, Patient } from '../entities'
 import { Doctor } from 'app/entities'
 
 export class UserRegisterParams {
@@ -47,8 +47,14 @@ export class UserController {
   }
 
   @Put('/doctor/:id')
-  async updateDoctorInfo(@Body() params: DoctorInfo & Doctor) {}
+  async updateDoctorInfo(@Body() params: Doctor) {
+    const userService = new UserService(Role.DOCTOR)
+    return await userService.update(params)
+  }
 
   @Put('/patient/:id')
-  async updatePatientInfo(@Body() params: DoctorInfo) {}
+  async updatePatientInfo(@Body() params: Patient) {
+    const userService = new UserService(Role.PATIENT)
+    return await userService.update(params)
+  }
 }

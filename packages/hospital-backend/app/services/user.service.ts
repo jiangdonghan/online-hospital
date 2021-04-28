@@ -6,7 +6,7 @@ import Environment from '../../configs/environments'
 import { UserLoginParams, UserRegisterParams } from '../controllers'
 import { encryptPassword } from '../utils'
 import { HttpError } from 'routing-controllers'
-import { DoctorInfo } from '../entities/doctor-info.entity'
+import { DoctorInfo } from '../entities'
 
 const jwt = require('jsonwebtoken')
 
@@ -98,5 +98,9 @@ export class UserService {
     } else {
       throw new HttpError(400, 'Invalid username or password')
     }
+  }
+
+  async update(params: Doctor | Patient) {
+    await this.repository.update(params.id, params)
   }
 }
