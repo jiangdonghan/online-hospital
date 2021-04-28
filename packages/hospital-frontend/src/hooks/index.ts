@@ -21,7 +21,8 @@ export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
     //TODO add callback to dependency will lead to infinite loop, useCallback / useMemo 有关系
-  }, [callback]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, ["aaaaa"]);
 };
 
 export const useDebounce = <V>(value: V, delay?: number) => {
