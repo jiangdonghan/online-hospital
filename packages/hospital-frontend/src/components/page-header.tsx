@@ -19,7 +19,11 @@ export const PageHeader = () => {
     <ContainerBase>
       <Header between={true}>
         <HeaderLeft gap={true}>
-          <ButtonNoPadding type={"link"} onClick={resetRoute}>
+          <ButtonNoPadding
+            type={"link"}
+            onClick={resetRoute}
+            style={{ marginRight: "10rem" }}
+          >
             <SoftwareLogo
               width={"3rem"}
               height={"3rem"}
@@ -55,14 +59,9 @@ const UserNav = () => {
             </Button>
           </Menu.Item>
           <Menu.Item key={"info"}>
-            <Button
-              onClick={() => {
-                console.log("ingo");
-              }}
-              type={"link"}
-            >
-              User Info
-            </Button>
+            <Link to="/profile">
+              <Button type={"link"}>My Profile</Button>
+            </Link>
           </Menu.Item>
         </Menu>
       }
@@ -78,7 +77,11 @@ const Header = styled(MyRow)`
   padding: 3.2rem 0;
   z-index: 1;
 `;
-const HeaderLeft = styled(MyRow)``;
+const HeaderLeft = styled(MyRow)`
+  div {
+    margin-right: 5rem;
+  }
+`;
 const HeaderRight = styled.div``;
 export const ContainerBase = styled.div`
   width: 1200px;

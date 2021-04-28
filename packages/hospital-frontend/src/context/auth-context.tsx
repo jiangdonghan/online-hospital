@@ -3,7 +3,7 @@ import * as auth from "../providers/auth-provider";
 import { useMount } from "../hooks";
 import { User } from "../../../common/model/userModel";
 import { Role } from "../hooks/user";
-import { info, success } from "../hooks/utils";
+import { success } from "../hooks/utils";
 const jwt = require("jsonwebtoken");
 const AuthContext = React.createContext<
   | {
