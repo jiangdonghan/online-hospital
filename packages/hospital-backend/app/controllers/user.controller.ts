@@ -1,7 +1,9 @@
-import { Body, Get, JsonController, Post } from 'routing-controllers'
+import { Body, Get, JsonController, Post, Put } from 'routing-controllers'
 import { Role } from '../../../common/model/userModel'
 import { UserService } from '../services'
 import { IsEmail, IsEnum, MinLength } from 'class-validator'
+import { DoctorInfo } from '../entities/doctor-info.entity'
+import { Doctor } from 'app/entities'
 
 export class UserRegisterParams {
   @MinLength(3, { message: 'Name is too short' })
@@ -43,4 +45,10 @@ export class UserController {
     const userService = new UserService(params.role)
     return await userService.login(params)
   }
+
+  @Put('/doctor/:id')
+  async updateDoctorInfo(@Body() params: DoctorInfo & Doctor) {}
+
+  @Put('/patient/:id')
+  async updatePatientInfo(@Body() params: DoctorInfo) {}
 }

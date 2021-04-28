@@ -1,11 +1,12 @@
 import { getRepository, Repository } from 'typeorm'
 import { Service } from 'typedi'
 import { Doctor, Patient } from 'app/entities'
-import { Role } from '../../../common/model/userModel'
+import { Role } from '@jiangdonghan/common/model/userModel'
 import Environment from '../../configs/environments'
 import { UserLoginParams, UserRegisterParams } from '../controllers'
 import { encryptPassword } from '../utils'
 import { HttpError } from 'routing-controllers'
+import { DoctorInfo } from '../entities/doctor-info.entity'
 
 const jwt = require('jsonwebtoken')
 
@@ -29,12 +30,18 @@ export class UserService {
       user = new Patient()
     } else if (this.role === Role.DOCTOR) {
       user = new Doctor()
+      const doctorInfo = new DoctorInfo()
+      const doctorId = await this.getNextDoctorId()
+      user.id = doctorId
+      doctorInfo.doctorId = doctorId
+      user.doctorInfo = doctorInfo
     } else {
       throw new Error('Invalid role')
     }
     user.name = params.name
     user.email = params.email
     user.passwordHash = encryptPassword(params.password) || ''
+
     await user.save()
     return {
       ...user,
@@ -44,6 +51,31 @@ export class UserService {
         Environment.JWT_SECRET,
         { expiresIn: '60days' },
       ),
+    }
+  }
+
+  async getNextDoctorId() {
+    const doctor = await this.repository.findOne({
+      order: {
+        id: 'DESC',
+      },
+    })
+    return ++doctor.id
+  }
+
+  /**
+   * @deprecated
+   * @param doctor
+   */
+  async prepareDoctorInfo(doctor: Doctor) {
+    const repo = getRepository(DoctorInfo)
+    const doctorInfo = await repo.findOne(doctor.id)
+    if (doctorInfo) {
+      return doctorInfo
+    } else {
+      const doctorInfo = new DoctorInfo()
+      doctorInfo.doctorId = doctor.id
+      await doctorInfo.save()
     }
   }
 
