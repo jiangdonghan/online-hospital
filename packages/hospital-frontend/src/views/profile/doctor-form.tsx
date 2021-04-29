@@ -1,7 +1,6 @@
 import { Sex, User } from "../../models";
 import React, { useState } from "react";
-import { Button, Form, Input, Select, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Form, Input, Select } from "antd";
 
 export const DoctorProfileForm = ({ user }: { user: User | null }) => {
   const [profile, setProfile] = useState<any>({
@@ -13,13 +12,13 @@ export const DoctorProfileForm = ({ user }: { user: User | null }) => {
   //   setComponentSize(size);
   // };
 
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  // const normFile = (e: any) => {
+  //   console.log("Upload event:", e);
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e && e.fileList;
+  // };
 
   return (
     <>
@@ -29,6 +28,7 @@ export const DoctorProfileForm = ({ user }: { user: User | null }) => {
         layout="horizontal"
         initialValues={profile}
         size={"large"}
+        onValuesChange={setProfile}
       >
         <Form.Item
           label="Name"

@@ -1,7 +1,6 @@
 import { Sex, User } from "../../models";
 import React, { useState } from "react";
-import { Button, Form, Input, InputNumber, Radio, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Form, Input, InputNumber, Radio } from "antd";
 
 export const PatientProfileForm = ({ user }: { user: User | null }) => {
   const [profile, setProfile] = useState<any>({
@@ -13,13 +12,14 @@ export const PatientProfileForm = ({ user }: { user: User | null }) => {
   //   setComponentSize(size);
   // };
 
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  //
+  // const normFile = (e: any) => {
+  //   console.log("Upload event:", e);
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e && e.fileList;
+  // };
 
   return (
     <>
@@ -29,6 +29,7 @@ export const PatientProfileForm = ({ user }: { user: User | null }) => {
         layout="horizontal"
         initialValues={profile}
         size={"large"}
+        onValuesChange={setProfile}
       >
         <Form.Item label="Sex" name="sex" className={"align-left"}>
           <Radio.Group>
