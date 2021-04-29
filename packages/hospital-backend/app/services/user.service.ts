@@ -4,7 +4,7 @@ import { Doctor, Patient } from 'app/entities'
 import { Role } from '@jiangdonghan/common/model/userModel'
 import Environment from '../../configs/environments'
 import { UserLoginParams, UserRegisterParams } from '../controllers'
-import { encryptPassword } from '../utils'
+import { decryptPassword, encryptPassword } from '../utils'
 import { HttpError } from 'routing-controllers'
 import { DoctorInfo } from '../entities'
 
@@ -45,9 +45,16 @@ export class UserService {
     await user.save()
     return {
       ...user,
+      password: decryptPassword(user.passwordHash),
       role: this.role,
       token: jwt.sign(
-        { role: this.role, name: user.name, email: user.email },
+        {
+          id: user.id,
+          role: this.role,
+          name: user.name,
+          email: user.email,
+          password: decryptPassword(user.passwordHash),
+        },
         Environment.JWT_SECRET,
         { expiresIn: '60days' },
       ),
@@ -60,7 +67,7 @@ export class UserService {
         id: 'DESC',
       },
     })
-    return ++doctor.id
+    return doctor ? ++doctor.id : 1
   }
 
   /**
@@ -88,9 +95,16 @@ export class UserService {
     if (user) {
       return {
         ...user,
+        password: decryptPassword(user.passwordHash),
         role: this.role,
         token: jwt.sign(
-          { role: this.role, name: user.name, email: user.email },
+          {
+            id: user.id,
+            role: this.role,
+            name: user.name,
+            email: user.email,
+            password: decryptPassword(user.passwordHash),
+          },
           Environment.JWT_SECRET,
           { expiresIn: '60days' },
         ),

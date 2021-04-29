@@ -25,37 +25,56 @@ export const PatientProfileForm = ({ user }: { user: User | null }) => {
     <>
       <Form
         labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
+        wrapperCol={{ span: 18 }}
         layout="horizontal"
         initialValues={profile}
         size={"large"}
       >
-        <Form.Item label="Sex" name="sex">
+        <Form.Item label="Sex" name="sex" className={"align-left"}>
           <Radio.Group>
             <Radio.Button value={Sex.Male}>{Sex.Male}</Radio.Button>
             <Radio.Button value={Sex.Female}>{Sex.Female}</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="Age" name={"age"}>
+        <Form.Item label="Age" name={"age"} className={"align-left"}>
           <InputNumber />
         </Form.Item>
-        <Form.Item label="Name" name={"name"}>
+        <Form.Item
+          label="Name"
+          name={"name"}
+          rules={[
+            { required: true, message: "Please enter your name", min: 3 },
+          ]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Email" name={"email"}>
+        <Form.Item
+          label="Email"
+          name={"email"}
+          rules={[{ required: true, message: "Please enter your email" }]}
+        >
           <Input />
+        </Form.Item>
+        <Form.Item
+          label={"Password"}
+          name={"password"}
+          rules={[
+            { required: true, message: "Please enter your password", min: 6 },
+          ]}
+        >
+          <Input type="password" id={"password"} placeholder={"password"} />
         </Form.Item>
 
-        <Form.Item
-          name="avatar"
-          label="Avatar"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-        >
-          <Upload name="logo" action="/upload.do" listType="picture">
-            <Button icon={<UploadOutlined />}>Click to upload</Button>
-          </Upload>
-        </Form.Item>
+        {/*<Form.Item*/}
+        {/*  name="avatar"*/}
+        {/*  label="Avatar"*/}
+        {/*  valuePropName="fileList"*/}
+        {/*  getValueFromEvent={normFile}*/}
+        {/*>*/}
+        {/*  <Upload name="logo" action="/upload.do" listType="picture">*/}
+        {/*    <Button icon={<UploadOutlined />}>Click to upload</Button>*/}
+        {/*  </Upload>*/}
+        {/*</Form.Item>*/}
       </Form>
     </>
   );

@@ -2,9 +2,9 @@ import { RegisterForm, useAuth } from "../../context/auth-context";
 import React from "react";
 import { Form, Input, Radio } from "antd";
 import { LongButton } from "./index";
-import { Role } from "../../hooks/user";
 import { LoginHead, LoginTitle } from "./login";
 import { useHistory } from "react-router-dom";
+import { Role } from "../../models";
 
 export const RegisterScreen = ({
   onError,

@@ -2,8 +2,8 @@ import React, { ReactNode, useState } from "react";
 import * as auth from "../providers/auth-provider";
 import { useMount } from "../hooks";
 import { User } from "../../../common/model/userModel";
-import { Role } from "../hooks/user";
 import { success } from "../hooks/utils";
+import { Role } from "../models";
 const jwt = require("jsonwebtoken");
 const AuthContext = React.createContext<
   | {
@@ -66,6 +66,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       .then(() => {
         success("Successfully Logged Out");
+      })
+      .then(() => {
+        document.location.replace("/");
       });
   };
 

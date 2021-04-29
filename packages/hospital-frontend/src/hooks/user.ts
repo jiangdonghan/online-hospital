@@ -2,19 +2,7 @@ import { useAsync } from "./use-async";
 import { useHttp } from "./http";
 import { useEffect } from "react";
 import { cleanObject } from "./index";
-
-export interface User {
-  name: string;
-  email: string;
-  passwordHash: string;
-  role: Role;
-  token: string;
-}
-
-export enum Role {
-  "PATIENT" = "PATIENT",
-  "DOCTOR" = "DOCTOR",
-}
+import { User } from "../models";
 
 export const useUsers = (param?: Partial<User>) => {
   const client = useHttp();

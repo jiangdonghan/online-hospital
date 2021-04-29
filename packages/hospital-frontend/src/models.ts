@@ -4,10 +4,12 @@ export enum Sex {
 }
 
 export interface User {
+  id: number;
   name: string;
   email: string;
   role: Role;
   token: string;
+  password: string;
 }
 
 export enum Role {

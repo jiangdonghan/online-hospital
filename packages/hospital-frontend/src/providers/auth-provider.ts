@@ -22,7 +22,6 @@ export const login = (data: LoginForm) => {
   }).then(async (response) => {
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
       return handleUserResponse(result);
     } else {
       return Promise.reject(await response.json());
