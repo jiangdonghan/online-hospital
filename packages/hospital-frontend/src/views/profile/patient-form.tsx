@@ -1,13 +1,20 @@
-import { Sex, User } from "../../models";
+import { PatientModel, Sex, User } from "../../models";
 import React, { useState } from "react";
 import { Form, Input, InputNumber, Radio } from "antd";
+import { BottomWideButton } from "./index";
+import { useHttp } from "../../hooks/http";
+import { useAsync } from "../../hooks/use-async";
+import { error, success } from "../../hooks/utils";
+import { handleUpdateProfileResponse } from "../../providers/auth-provider";
+import { useAuth } from "../../context/auth-context";
 
 export const PatientProfileForm = ({ user }: { user: User | null }) => {
-  const [profile, setProfile] = useState<any>({
+  const [profile, setProfile] = useState<Partial<PatientModel>>({
     sex: Sex.Male,
     age: 0,
     ...user,
   });
+  const { setToken } = useAuth();
   // const onFormLayoutChange = ({ size }: { size: SizeType }) => {
   //   setComponentSize(size);
   // };
@@ -20,6 +27,22 @@ export const PatientProfileForm = ({ user }: { user: User | null }) => {
   //   }
   //   return e && e.fileList;
   // };
+  const client = useHttp();
+  const { run } = useAsync<PatientModel>();
+  const onSubmit = (val: PatientModel) => {
+    run(
+      client(`patient/${user?.id}`, {
+        data: val,
+        method: "PUT",
+      })
+    )
+      .then((value) => {
+        handleUpdateProfileResponse(value.token);
+        setToken(value.token);
+      })
+      .then(() => success("Successfully Updated"))
+      .catch((e) => error(e.message));
+  };
 
   return (
     <>
@@ -30,6 +53,7 @@ export const PatientProfileForm = ({ user }: { user: User | null }) => {
         initialValues={profile}
         size={"large"}
         onValuesChange={setProfile}
+        onFinish={onSubmit}
       >
         <Form.Item label="Sex" name="sex" className={"align-left"}>
           <Radio.Group>
@@ -76,6 +100,9 @@ export const PatientProfileForm = ({ user }: { user: User | null }) => {
         {/*    <Button icon={<UploadOutlined />}>Click to upload</Button>*/}
         {/*  </Upload>*/}
         {/*</Form.Item>*/}
+        <BottomWideButton type={"primary"} size={"large"} htmlType={"submit"}>
+          Save
+        </BottomWideButton>
       </Form>
     </>
   );

@@ -1,9 +1,7 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import * as auth from "../providers/auth-provider";
-import { useMount } from "../hooks";
-import { User } from "../../../common/model/userModel";
 import { success } from "../hooks/utils";
-import { Role } from "../models";
+import { Role, User } from "../models";
 const jwt = require("jsonwebtoken");
 const AuthContext = React.createContext<
   | {
@@ -11,6 +9,7 @@ const AuthContext = React.createContext<
       register: (form: RegisterForm) => Promise<void>;
       login: (form: LoginForm) => Promise<void>;
       logout: () => Promise<void>;
+      setToken: React.Dispatch<React.SetStateAction<string>>;
     }
   | undefined
 >(undefined);
@@ -39,7 +38,7 @@ const bootstrapUser = async () => {
 };
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-
+  const [token, setToken] = useState<string>(auth.getToken() as string);
   const login = (form: LoginForm) => {
     return auth
       .login(form)
@@ -72,11 +71,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
   };
 
-  useMount(() => {
+  useEffect(() => {
     bootstrapUser().then(setUser);
-  });
+  }, [token]);
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, setToken }}>
       {children}
     </AuthContext.Provider>
   );

@@ -18,7 +18,6 @@ export const RegisterScreen = ({
     { label: "Doctor", value: "DOCTOR" },
   ];
   const handleSubmit = (values: RegisterForm) => {
-    console.log(values);
     register(values)
       .then(() => {
         history.replace("/");

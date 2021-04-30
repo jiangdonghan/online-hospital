@@ -10,6 +10,13 @@ import { DoctorInfo } from '../entities'
 
 const jwt = require('jsonwebtoken')
 
+interface FullDoctor extends Doctor {
+  doctorInfo: DoctorInfo
+  password: string
+}
+interface FullPatient extends Patient {
+  password: string
+}
 @Service()
 export class UserService {
   repository: Repository<Patient | Doctor>
@@ -114,7 +121,58 @@ export class UserService {
     }
   }
 
-  async update(params: Doctor | Patient) {
-    await this.repository.update(params.id, params)
+  async update(id: number, params: FullPatient | FullDoctor) {
+    params.passwordHash = encryptPassword(params.password)
+    const password = params.password
+    delete params.password
+    let data
+    if (this.role === Role.DOCTOR) {
+      data = await this.updateDoctor(id, params as FullDoctor)
+    } else {
+      data = await this.updatePatient(id, params as Patient)
+    }
+
+    return {
+      token: jwt.sign(
+        {
+          ...data,
+          password,
+        },
+        Environment.JWT_SECRET,
+        { expiresIn: '60days' },
+      ),
+    }
+  }
+
+  async updateDoctor(id: number, params: FullDoctor) {
+    const repo = getRepository(DoctorInfo)
+    const doctorInfo = await repo.findOne({ doctorId: id })
+    doctorInfo.specialty1 = params.doctorInfo.specialty1
+    doctorInfo.clinicLocation = params.doctorInfo.clinicLocation
+    doctorInfo.clinicName = params.doctorInfo.clinicName
+    await doctorInfo.save()
+    delete params.doctorInfo
+    await this.repository.update(id, params)
+    return {
+      id: id,
+      role: this.role,
+      name: params.name,
+      email: params.email,
+      clinicLocation: doctorInfo.clinicLocation,
+      clinicName: doctorInfo.clinicName,
+      specialty1: doctorInfo.specialty1,
+    }
+  }
+
+  async updatePatient(id: number, params: Patient) {
+    await this.repository.update(id, params)
+    return {
+      id: id,
+      role: this.role,
+      name: params.name,
+      email: params.email,
+      sex: params.sex,
+      age: params.age,
+    }
   }
 }

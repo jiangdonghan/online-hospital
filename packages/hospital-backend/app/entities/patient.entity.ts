@@ -24,7 +24,10 @@ export class Patient extends BaseEntity {
   avatar: string
 
   @Column()
-  infoDataStr: string
+  sex: string
+
+  @Column()
+  age: number
 
   @Column()
   deleted: boolean

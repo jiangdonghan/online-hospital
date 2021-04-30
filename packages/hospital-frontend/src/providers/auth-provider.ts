@@ -1,5 +1,5 @@
-import { User } from "../../../common/model/userModel";
 import { LoginForm, RegisterForm } from "../context/auth-context";
+import { User } from "../models";
 
 const localStorageKey = "user_token";
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -10,6 +10,10 @@ export const getToken = () => window.localStorage.getItem(localStorageKey);
 export const handleUserResponse = (user: User) => {
   window.localStorage.setItem(localStorageKey, user.token || "");
   return user;
+};
+
+export const handleUpdateProfileResponse = (token: string) => {
+  window.localStorage.setItem(localStorageKey, token || "");
 };
 
 export const login = (data: LoginForm) => {

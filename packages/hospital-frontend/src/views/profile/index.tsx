@@ -21,9 +21,6 @@ export const Profile = () => {
           ) : (
             <DoctorProfileForm user={user} />
           )}
-          <BottomWideButton type={"primary"} size={"large"}>
-            Save
-          </BottomWideButton>
         </FormWrapper>
       ) : null}
     </ContainerBase>
@@ -44,7 +41,7 @@ const FormWrapper = styled(Card)`
   margin: 3rem auto;
   position: relative;
   width: 100%;
-  min-height: 50rem;
+  min-height: 65vh;
   padding: 3.2rem 0;
   border-radius: 0.3rem;
   box-sizing: border-box;

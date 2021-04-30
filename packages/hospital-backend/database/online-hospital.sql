@@ -19,7 +19,6 @@ CREATE TABLE patient
     email        varchar(127) DEFAULT ''                NOT NULL COMMENT 'user email',
     passwordHash varchar(255) DEFAULT ''                NOT NULL,
     avatar varchar(255) DEFAULT ''                NOT NULL,
-    infoDataStr          text         NULL COMMENT 'personal info json str',
     deleted      tinyint(1)   DEFAULT  0                NOT NULL,
     createdAt    timestamp    DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updatedAt    timestamp    DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -102,3 +101,6 @@ CREATE TABLE appointment
     createdAt    timestamp    DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updatedAt    timestamp    DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+ALTER TABLE `hospital`.`patient` DROP COLUMN `infoDataStr`;

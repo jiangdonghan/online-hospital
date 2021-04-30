@@ -1,5 +1,5 @@
-import { Body, Get, JsonController, Post, Put } from 'routing-controllers'
-import { Role } from '../../../common/model/userModel'
+import { Body, JsonController, Param, Post, Put } from 'routing-controllers'
+import { Role } from '../../../common/model'
 import { UserService } from '../services'
 import { IsEmail, IsEnum, MinLength } from 'class-validator'
 import { DoctorInfo, Patient } from '../entities'
@@ -47,14 +47,20 @@ export class UserController {
   }
 
   @Put('/doctor/:id')
-  async updateDoctorInfo(@Body() params: Doctor) {
+  async updateDoctorInfo(
+    @Param('id') id: number,
+    @Body() params: Doctor & { password: string },
+  ) {
     const userService = new UserService(Role.DOCTOR)
-    return await userService.update(params)
+    return await userService.update(id, params)
   }
 
   @Put('/patient/:id')
-  async updatePatientInfo(@Body() params: Patient) {
+  async updatePatientInfo(
+    @Param('id') id: number,
+    @Body() params: Patient & { password: string },
+  ) {
     const userService = new UserService(Role.PATIENT)
-    return await userService.update(params)
+    return await userService.update(id, params)
   }
 }

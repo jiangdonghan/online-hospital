@@ -1,13 +1,20 @@
-import { Sex, User } from "../../models";
+import { DoctorModel, Sex, Specialist, User } from "../../models";
 import React, { useState } from "react";
 import { Form, Input, Select } from "antd";
+import { BottomWideButton } from "./index";
+import { useHttp } from "../../hooks/http";
+import { useAsync } from "../../hooks/use-async";
+import { error, success } from "../../hooks/utils";
+import { handleUpdateProfileResponse } from "../../providers/auth-provider";
+import { useAuth } from "../../context/auth-context";
 
 export const DoctorProfileForm = ({ user }: { user: User | null }) => {
-  const [profile, setProfile] = useState<any>({
+  const [profile, setProfile] = useState<Partial<DoctorModel>>({
     sex: Sex.Male,
     age: 0,
     ...user,
   });
+  const { setToken } = useAuth();
   // const onFormLayoutChange = ({ size }: { size: SizeType }) => {
   //   setComponentSize(size);
   // };
@@ -20,6 +27,39 @@ export const DoctorProfileForm = ({ user }: { user: User | null }) => {
   //   return e && e.fileList;
   // };
 
+  const SpecialistOptions = Object.keys(Specialist).map((item) => {
+    return (
+      <Select.Option key={item} value={item}>
+        {item}
+      </Select.Option>
+    );
+  });
+  const client = useHttp();
+  const { run } = useAsync<DoctorModel>();
+  const onSubmit = (val: DoctorModel) => {
+    run(
+      client(`doctor/${user?.id}`, {
+        data: {
+          doctorInfo: {
+            clinicName: val.clinicName,
+            clinicLocation: val.clinicLocation,
+            specialty1: val.specialty1,
+          },
+          name: val.name,
+          password: val.password,
+          email: val.email,
+        },
+        method: "PUT",
+      })
+    )
+      .then((value) => {
+        handleUpdateProfileResponse(value.token);
+        setToken(value.token);
+      })
+      .then(() => success("Successfully Updated"))
+      .catch((e) => error(e.message));
+  };
+
   return (
     <>
       <Form
@@ -29,6 +69,7 @@ export const DoctorProfileForm = ({ user }: { user: User | null }) => {
         initialValues={profile}
         size={"large"}
         onValuesChange={setProfile}
+        onFinish={onSubmit}
       >
         <Form.Item
           label="Name"
@@ -71,20 +112,8 @@ export const DoctorProfileForm = ({ user }: { user: User | null }) => {
         {/*    <Button icon={<UploadOutlined />}>Click to upload</Button>*/}
         {/*  </Upload>*/}
         {/*</Form.Item>*/}
-        <Form.Item label="First Specialty">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="Second Specialty">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="Third Specialty">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
+        <Form.Item label="Specialty" name={"specialty1"}>
+          <Select>{SpecialistOptions}</Select>
         </Form.Item>
         {/*<Form.Item*/}
         {/*  name="certificate"*/}
@@ -96,6 +125,9 @@ export const DoctorProfileForm = ({ user }: { user: User | null }) => {
         {/*    <Button icon={<UploadOutlined />}>Click to upload</Button>*/}
         {/*  </Upload>*/}
         {/*</Form.Item>*/}
+        <BottomWideButton type={"primary"} size={"large"} htmlType={"submit"}>
+          Save
+        </BottomWideButton>
       </Form>
     </>
   );
