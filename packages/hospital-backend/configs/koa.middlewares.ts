@@ -3,6 +3,7 @@ import logger from 'koa-logger'
 import bodyParser from 'koa-bodyparser'
 import Environment from './environments'
 const onerror = require('koa-onerror')
+
 export const useMiddlewares = <T extends Koa>(app: T): T => {
   Environment.identity !== 'test' && app.use(logger())
 
@@ -20,5 +21,17 @@ export const useMiddlewares = <T extends Koa>(app: T): T => {
     }
   })
 
+  // app.use(
+  //   koaBody({
+  //     // 支持文件格式
+  //     multipart: true,
+  //     formidable: {
+  //       // 上传目录
+  //       uploadDir: path.join(__dirname, '/'),
+  //       // 保留文件扩展名
+  //       keepExtensions: true,
+  //     },
+  //   }),
+  // )
   return app
 }

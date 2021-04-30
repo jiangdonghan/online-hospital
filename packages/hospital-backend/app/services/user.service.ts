@@ -98,27 +98,68 @@ export class UserService {
       email: params.email,
       passwordHash: encryptPassword(params.password),
     })
-
-    if (user) {
-      return {
-        ...user,
-        password: decryptPassword(user.passwordHash),
-        role: this.role,
-        token: jwt.sign(
-          {
-            id: user.id,
-            role: this.role,
-            name: user.name,
-            email: user.email,
-            password: decryptPassword(user.passwordHash),
-          },
-          Environment.JWT_SECRET,
-          { expiresIn: '60days' },
-        ),
-      }
-    } else {
+    if (!user) {
       throw new HttpError(400, 'Invalid username or password')
     }
+    const data: any = {
+      id: user.id,
+      role: this.role,
+      name: user.name,
+      email: user.email,
+      password: decryptPassword(user.passwordHash),
+      avatar: user.avatar,
+    }
+    if (this.role === Role.DOCTOR) {
+      const repo = getRepository(DoctorInfo)
+      const doctorInfo = await repo.findOne({ doctorId: user.id })
+      data.specialty1 = doctorInfo.specialty1
+      data.clinicLocation = doctorInfo.clinicLocation
+      data.clinicName = doctorInfo.clinicName
+      data.certification = doctorInfo.certification
+    } else {
+      const patient = user as Patient
+      data.sex = patient.sex
+      data.age = patient.age
+    }
+    return {
+      ...user,
+      password: decryptPassword(user.passwordHash),
+      role: this.role,
+      token: jwt.sign(data, Environment.JWT_SECRET, { expiresIn: '60days' }),
+    }
+  }
+
+  async getLatestToken(id: number) {
+    let data: any = {}
+    if (this.role === Role.PATIENT) {
+      const patient = await Patient.findOne(id)
+      data = {
+        id: patient.id,
+        role: this.role,
+        name: patient.name,
+        email: patient.email,
+        password: decryptPassword(patient.passwordHash),
+        avatar: patient.avatar,
+        sex: patient.sex,
+        age: patient.age,
+      }
+    } else {
+      const doctor = await Doctor.findOne(id)
+      const doctorInfo = await DoctorInfo.findOne({ doctorId: id })
+      data = {
+        id: doctor.id,
+        role: this.role,
+        name: doctor.name,
+        email: doctor.email,
+        password: decryptPassword(doctor.passwordHash),
+        avatar: doctor.avatar,
+        specialty1: doctorInfo.specialty1,
+        clinicLocation: doctorInfo.clinicLocation,
+        clinicName: doctorInfo.clinicName,
+        certification: doctorInfo.certification,
+      }
+    }
+    return { token: jwt.sign(data, Environment.JWT_SECRET, { expiresIn: '60days' }) }
   }
 
   async update(id: number, params: FullPatient | FullDoctor) {

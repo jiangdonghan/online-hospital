@@ -104,3 +104,5 @@ CREATE TABLE appointment
 
 
 ALTER TABLE `hospital`.`patient` DROP COLUMN `infoDataStr`;
+ALTER TABLE `hospital`.`patient` ADD COLUMN `age` int NOT NULL DEFAULT '0' COMMENT '';
+ALTER TABLE `hospital`.`patient` ADD COLUMN `sex` varchar(127) NOT NULL DEFAULT '' COMMENT '';

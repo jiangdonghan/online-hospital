@@ -7,7 +7,8 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
     context.set('Access-Control-Allow-Origin', '*')
     context.set('Access-Control-Allow-Headers', '*')
     context.set('Access-Control-Allow-Credentials', 'true')
-    context.set('Content-Type', 'application/json; charset=utf-8')
+    context.set('Content-Type', '*')
+
     return next()
   }
 }

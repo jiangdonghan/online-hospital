@@ -8,4 +8,5 @@ export default {
   PASSWORD: '123456',
   DATABASE: 'hospital',
   JWT_SECRET: 'QWSF43Fds3',
+  SOURCE_PATH: '/root/app/hospital/pics',
 }

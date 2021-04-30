@@ -10,6 +10,7 @@ export interface User {
   role: Role;
   token: string;
   password: string;
+  avatar?: string;
 }
 
 export enum Role {

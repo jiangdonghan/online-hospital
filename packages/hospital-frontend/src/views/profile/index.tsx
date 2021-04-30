@@ -1,28 +1,25 @@
 import React from "react";
 import { Role } from "../../models";
 import { ContainerBase, PageHeader } from "../../components/page-header";
-import { useAuth } from "context/auth-context";
 import { PatientProfileForm } from "./patient-form";
 import { DoctorProfileForm } from "./doctor-form";
 import PageFooter from "../../components/page-footer";
 import styled from "@emotion/styled";
 import { Button, Card } from "antd";
+import { getUser } from "../../hooks/user";
 
 export const Profile = () => {
-  const { user } = useAuth();
-
+  const user = getUser();
   return (
     <ContainerBase>
-      {user ? (
-        <FormWrapper>
-          {" "}
-          {user?.role === Role.PATIENT ? (
-            <PatientProfileForm user={user} />
-          ) : (
-            <DoctorProfileForm user={user} />
-          )}
-        </FormWrapper>
-      ) : null}
+      <FormWrapper>
+        {" "}
+        {user?.role === Role.PATIENT ? (
+          <PatientProfileForm />
+        ) : (
+          <DoctorProfileForm />
+        )}
+      </FormWrapper>
     </ContainerBase>
   );
 };

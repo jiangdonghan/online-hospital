@@ -1,3 +1,7 @@
+import fs from 'fs'
+import path from 'path'
+import Environment from '../../configs/environments'
+
 const crypto = require('crypto')
 
 /*
@@ -36,4 +40,8 @@ export const decryptPassword = function (passwordHash) {
 
   decrypted += decipher.final('utf-8')
   return decrypted
+}
+
+export const writeFile = (name: string, data: string | NodeJS.ArrayBufferView) => {
+  fs.writeFileSync(path.join(Environment.SOURCE_PATH, name), data)
 }
