@@ -194,23 +194,28 @@ export class UserService {
     await doctorInfo.save()
     delete params.doctorInfo
     await this.repository.update(id, params)
+    const doctor = await Doctor.findOne(id)
     return {
       id: id,
       role: this.role,
       name: params.name,
       email: params.email,
+      avatar: doctor.avatar,
       clinicLocation: doctorInfo.clinicLocation,
       clinicName: doctorInfo.clinicName,
       specialty1: doctorInfo.specialty1,
+      certification: doctorInfo.certification,
     }
   }
 
   async updatePatient(id: number, params: Patient) {
     await this.repository.update(id, params)
+    const patient = await Patient.findOne(id)
     return {
       id: id,
       role: this.role,
       name: params.name,
+      avatar: patient.avatar,
       email: params.email,
       sex: params.sex,
       age: params.age,
