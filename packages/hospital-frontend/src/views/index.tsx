@@ -203,7 +203,7 @@ const AboutWrapper = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
   > div {
-    width: 50vw;
+    width: 49.5vw;
     height: 35vw;
   }
 `;
