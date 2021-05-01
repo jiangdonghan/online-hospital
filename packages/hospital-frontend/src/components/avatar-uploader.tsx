@@ -51,9 +51,9 @@ export const ImageUploader = ({
     }
     if (info.file.status === "done") {
       // Get this url from response in real world.
+      setImageUrl(info.file.response.image);
       success("Successfully uploaded");
       setLoading(false);
-      setImageUrl(info.file.response.avatar);
     }
   };
 

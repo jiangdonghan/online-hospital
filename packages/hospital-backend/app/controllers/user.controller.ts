@@ -91,7 +91,7 @@ export class UserController {
     const doctor = await repo.findOne(id)
     doctor.avatar = name
     await doctor.save()
-    return { avatar: doctor.avatar }
+    return { image: doctor.avatar }
   }
 
   @Post('/avatar/patient/:id')
@@ -103,7 +103,7 @@ export class UserController {
     const patient = await repo.findOne(id)
     patient.avatar = name
     await patient.save()
-    return { avatar: patient.avatar }
+    return { image: patient.avatar }
   }
 
   @Post('/avatar/doctor/:id/certification')
@@ -115,6 +115,6 @@ export class UserController {
     const doctorInfo = await repo.findOne({ doctorId: id })
     doctorInfo.certification = name
     await doctorInfo.save()
-    return { certification: doctorInfo.certification }
+    return { image: doctorInfo.certification }
   }
 }

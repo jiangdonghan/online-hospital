@@ -22,6 +22,7 @@ export const DoctorProfileForm = () => {
   });
   const [imageUrl, setImageUrl] = useState(user.avatar);
   const [certification, setCertification] = useState(user.certification);
+
   const SpecialistOptions = Object.keys(Specialist).map((item) => {
     return (
       <Select.Option key={item} value={item}>
@@ -34,6 +35,7 @@ export const DoctorProfileForm = () => {
     client(`me/role/${user.role}/id/${user.id}`).then((value) => {
       handleUpdateProfileResponse(value.token);
       setToken(value.token);
+      console.log("ss");
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl, user.id, user.role, certification]);
