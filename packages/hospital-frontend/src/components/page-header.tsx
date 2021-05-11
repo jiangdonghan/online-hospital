@@ -30,8 +30,8 @@ export const PageHeader = () => {
               color={"rgb(38, 132, 255)"}
             />
           </ButtonNoPadding>
-          <div>Browse Doctors</div>
-          <div>About</div>
+          <Link to={"/doctors"}>Browse Doctors</Link>
+          <Link to={"/about"}>About</Link>
         </HeaderLeft>
         <HeaderRight>
           {user ? (
