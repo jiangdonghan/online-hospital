@@ -28,6 +28,9 @@ export class DoctorInfo extends BaseEntity {
   specialty3: string
 
   @Column()
+  introduction: string
+
+  @Column()
   createdAt: Date
 
   @Column()

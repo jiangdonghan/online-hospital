@@ -50,4 +50,5 @@ export interface DoctorModel extends User {
   specialty2: Specialist;
   specialty3: Specialist;
   certificate?: string;
+  introduction?: string;
 }

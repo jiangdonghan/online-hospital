@@ -50,6 +50,7 @@ export const DoctorProfileForm = () => {
             clinicName: val.clinicName,
             clinicLocation: val.clinicLocation,
             specialty1: val.specialty1,
+            introduction: val.introduction,
           },
           name: val.name,
           password: val.password,
@@ -114,6 +115,9 @@ export const DoctorProfileForm = () => {
           <Select>{SpecialistOptions}</Select>
         </Form.Item>
         <Form.Item label="Clinic Name" name="clinicName">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Self Introduction" name="introduction">
           <Input />
         </Form.Item>
         <Certification>

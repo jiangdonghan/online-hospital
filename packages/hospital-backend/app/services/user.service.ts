@@ -116,6 +116,7 @@ export class UserService {
       data.clinicLocation = doctorInfo.clinicLocation
       data.clinicName = doctorInfo.clinicName
       data.certification = doctorInfo.certification
+      data.introduction = doctorInfo.introduction
     } else {
       const patient = user as Patient
       data.sex = patient.sex
@@ -157,6 +158,7 @@ export class UserService {
         clinicLocation: doctorInfo.clinicLocation,
         clinicName: doctorInfo.clinicName,
         certification: doctorInfo.certification,
+        introduction: doctorInfo.introduction,
       }
     }
     return { token: jwt.sign(data, Environment.JWT_SECRET, { expiresIn: '60days' }) }
@@ -191,6 +193,7 @@ export class UserService {
     doctorInfo.specialty1 = params.doctorInfo.specialty1
     doctorInfo.clinicLocation = params.doctorInfo.clinicLocation
     doctorInfo.clinicName = params.doctorInfo.clinicName
+    doctorInfo.introduction = params.doctorInfo.introduction
     await doctorInfo.save()
     delete params.doctorInfo
     await this.repository.update(id, params)
@@ -205,6 +208,7 @@ export class UserService {
       clinicName: doctorInfo.clinicName,
       specialty1: doctorInfo.specialty1,
       certification: doctorInfo.certification,
+      introduction: doctorInfo.introduction,
     }
   }
 
