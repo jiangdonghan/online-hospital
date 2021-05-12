@@ -42,22 +42,22 @@ const Main: React.FC = () => {
     {
       logo: Team1,
       name: "Brandon Yeald",
-      spcialist: "Psychologist",
+      specialist: "Psychologist",
     },
     {
       logo: Team2,
       name: "Calvin Anderson",
-      spcialist: "Surgeon",
+      specialist: "Surgeon",
     },
     {
       logo: Team3,
       name: "Roman Solo",
-      spcialist: "Pediatrician",
+      specialist: "Pediatrician",
     },
     {
       logo: Team4,
       name: "Yeald Kin",
-      spcialist: "Preventive Medicine",
+      specialist: "Preventive Medicine",
     },
   ];
   return (

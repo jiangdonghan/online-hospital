@@ -5,17 +5,17 @@ import styled from "@emotion/styled";
 export interface TeamMemberProps {
   logo: string;
   name: string;
-  spcialist: string;
+  specialist: string;
 }
 export const TeamMember = (props: TeamMemberProps) => {
-  const { logo, name, spcialist } = props;
+  const { logo, name, specialist } = props;
   return (
     <MemberCard
       key={name}
       cover={<img alt="example" src={logo} width={260} height={300} />}
     >
       <Header>{name}</Header>
-      <Intro>{spcialist}</Intro>
+      <Intro>{specialist}</Intro>
     </MemberCard>
   );
 };

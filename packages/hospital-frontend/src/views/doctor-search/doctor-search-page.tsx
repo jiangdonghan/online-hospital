@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { ContainerBase, PageHeader } from "../../components/page-header";
 import PageFooter from "../../components/page-footer";
 import styled from "@emotion/styled";
+import BannerImg from "../../assets/banner-search.jpeg";
+import { SpecialistSelect } from "../../components/specialist-select";
+import { Button, Input } from "antd";
+import { AppointCard, DoctorProps } from "../../components/appoint-card";
+import { Specialist } from "../../models";
 
 export const DoctorSearchPage = () => {
   return (
@@ -14,22 +19,168 @@ export const DoctorSearchPage = () => {
 };
 
 const Main = () => {
+  const [params, setParams] = useState<{
+    specialist: string;
+    name: string;
+  }>({ specialist: "All", name: "" });
+
+  const originalData = [
+    {
+      id: 1,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "adam",
+      specialist: Specialist.Oncologist,
+      description: "lorem ipsum dolor sit",
+    },
+    {
+      id: 2,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "jimmy",
+      specialist: Specialist.Psychiatrists,
+      description: "lorem ipsum dolor sit",
+    },
+    {
+      id: 3,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "cole",
+      specialist: Specialist.Veterinarian,
+      description: "lorem ipsum dolor sit",
+    },
+    {
+      id: 4,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "tim",
+      specialist: Specialist.Radiologist,
+      description: "lorem ipsum dolor sit",
+    },
+    {
+      id: 5,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "thomas",
+      specialist: Specialist.Psychiatrists,
+      description: "lorem ipsum dolor sit",
+    },
+    {
+      id: 6,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "toby",
+      specialist: Specialist.Gynaecologist,
+      description: "lorem ipsum dolor sit",
+    },
+    {
+      id: 7,
+      avatar: "https://placeimg.com/260/300/people",
+      name: "james",
+      specialist: Specialist.Audiologist,
+      description: "lorem ipsum dolor sit",
+    },
+  ];
+  const [doctors, setDoctors] = useState<DoctorProps[]>(originalData);
+
+  const searchDoctor = () => {
+    const data = originalData.filter((doctor) => {
+      if (params.specialist === "All") {
+        return doctor.name.includes(params.name);
+      } else
+        return (
+          doctor.name.includes(params.name) &&
+          doctor.specialist.includes(params.specialist)
+        );
+    });
+    setDoctors(data);
+  };
+
   return (
-    <Container>
-      <SearchBar>search</SearchBar>
-      <DoctorWrapper>doctor</DoctorWrapper>
-    </Container>
+    <>
+      <Banner>
+        <ContainerBase>
+          <BannerText>
+            Book professional <br />
+            Doctors
+          </BannerText>
+        </ContainerBase>
+      </Banner>
+      <SearchBar>
+        <SpecialistSelect
+          defaultOptionName={"All"}
+          width={"300px"}
+          value={params.specialist}
+          onChange={(value) => {
+            setParams({ ...params, specialist: String(value) });
+          }}
+        />
+        <Input
+          placeholder="Name"
+          style={{ width: "300px", marginRight: "7rem", marginLeft: "3rem" }}
+          type="text"
+          value={params.name}
+          onChange={(e) => {
+            setParams({ ...params, name: e.target.value });
+          }}
+        />
+        <Button
+          type={"primary"}
+          style={{ marginRight: "2rem" }}
+          onClick={() => {
+            searchDoctor();
+          }}
+        >
+          Search
+        </Button>
+        <Button
+          type={"default"}
+          onClick={() => {
+            setParams({ specialist: "All", name: "" });
+            setDoctors(originalData);
+          }}
+        >
+          Clear
+        </Button>
+      </SearchBar>
+      <DoctorWrapper>
+        <h1>Doctors</h1>
+        <ResultWrapper>
+          {doctors.map((item) => {
+            return AppointCard(item);
+          })}
+        </ResultWrapper>
+      </DoctorWrapper>
+    </>
   );
 };
 
-const Container = styled(ContainerBase)`
-  min-height: 50rem;
+const SearchBar = styled(ContainerBase)`
+  margin-top: 5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-start;
 `;
 
-const SearchBar = styled.div`
-  min-height: 10rem;
+const DoctorWrapper = styled(ContainerBase)`
+  min-height: 70rem;
 `;
 
-const DoctorWrapper = styled.div`
-  min-height: 10rem;
+const Banner = styled.div`
+  position: relative;
+  height: 500px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(${BannerImg});
+`;
+
+const ResultWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
+
+const BannerText = styled.h1`
+  padding-top: 13rem;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  font-size: 6rem;
+  font-weight: 400;
+  line-height: 8rem;
+  width: 800px;
 `;
