@@ -3,25 +3,36 @@ import React from "react";
 import styled from "@emotion/styled";
 import { success } from "../hooks/utils";
 
+const path = process.env.REACT_APP_SOURCE_PATH;
+
 export interface DoctorProps {
   avatar: string;
   name: string;
-  specialist: string;
+  doctorInfo: {
+    specialty1: string;
+    introduction: string;
+  };
   id: number;
   description: string;
 }
 export const AppointCard = (props: DoctorProps) => {
-  const { avatar, name, specialist } = props;
+  const { avatar, name, doctorInfo } = props;
   return (
     <MemberCard
       key={name}
-      cover={<img alt="example" src={avatar} width={260} height={300} />}
+      cover={
+        <img
+          alt="example"
+          src={`${path}/${avatar}`}
+          style={{ height: 300, width: 260 }}
+        />
+      }
     >
       <InfoWrapper>
         {" "}
         <div>
           <Header>{name}</Header>
-          <Intro>{specialist}</Intro>
+          <Intro>{doctorInfo.specialty1}</Intro>
         </div>
         <ReserveButton
           type={"primary"}
@@ -42,7 +53,7 @@ const MemberCard = styled(Card)`
 `;
 
 const Header = styled.h3`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   color: #1f1f1f;
   margin: 0;
@@ -67,6 +78,6 @@ const InfoWrapper = styled.div`
 const ReserveButton = styled(Button)`
   text-align: center;
   position: absolute;
-  top: 1.7rem;
-  left: 11rem;
+  top: 1.3rem;
+  left: 15rem;
 `;

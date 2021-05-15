@@ -13,8 +13,6 @@ import { UserService } from '../services'
 import { IsEmail, IsEnum, MinLength } from 'class-validator'
 import { DoctorInfo, Patient } from '../entities'
 import { Doctor } from 'app/entities'
-import * as fs from 'fs'
-import { Buffer } from 'buffer'
 import { getRepository } from 'typeorm'
 import { writeFile } from '../utils'
 export class UserRegisterParams {
@@ -121,7 +119,7 @@ export class UserController {
   @Get('/doctors')
   async getAllDoctors() {
     const repo = getRepository(Doctor)
-    const result = await repo.findAndCount()
+    const result = await repo.findAndCount({ relations: ['doctorInfo'] })
     return result[0]
   }
 }

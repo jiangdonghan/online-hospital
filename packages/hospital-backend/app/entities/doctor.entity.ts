@@ -1,4 +1,11 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm'
+import {
+  Entity,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm'
 import { DoctorInfo } from './doctor-info.entity'
 
 @Entity('doctor')
@@ -36,5 +43,6 @@ export class Doctor extends BaseEntity {
   @OneToOne(type => DoctorInfo, doctorInfo => doctorInfo.doctorId, {
     cascade: true,
   })
+  @JoinColumn({ name: 'id', referencedColumnName: 'doctorId' })
   doctorInfo: DoctorInfo
 }

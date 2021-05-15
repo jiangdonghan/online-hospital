@@ -2,16 +2,21 @@ import { useAsync } from "./use-async";
 import { useHttp } from "./http";
 import { useEffect } from "react";
 import { cleanObject } from "./index";
-import { DoctorModel, PatientModel } from "../models";
+import { PatientModel } from "../models";
 export const useDoctors = () => {
   const client = useHttp();
-  const { run, setData, ...result } = useAsync<any>();
+  const { run, setData, data, ...result } = useAsync<any>();
   useEffect(() => {
-    run(client(`doctors`));
+    run(client(`doctors`)).then((data) => {
+      const dataArr = Object.keys(data).map((item) => data[item]);
+      dataArr.pop();
+      setData(dataArr);
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { ...result };
+  return { data, ...result };
 };
 
 export const usePatient = (param?: Partial<PatientModel>) => {

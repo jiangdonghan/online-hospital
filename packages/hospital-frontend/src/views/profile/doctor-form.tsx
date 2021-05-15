@@ -35,7 +35,6 @@ export const DoctorProfileForm = () => {
     client(`me/role/${user.role}/id/${user.id}`).then((value) => {
       handleUpdateProfileResponse(value.token);
       setToken(value.token);
-      console.log("ss");
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl, user.id, user.role, certification]);

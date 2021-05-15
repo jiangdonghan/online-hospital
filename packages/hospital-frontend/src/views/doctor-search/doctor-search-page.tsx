@@ -6,7 +6,6 @@ import BannerImg from "../../assets/banner-search.jpeg";
 import { SpecialistSelect } from "../../components/specialist-select";
 import { Button, Input } from "antd";
 import { AppointCard, DoctorProps } from "../../components/appoint-card";
-import { Specialist } from "../../models";
 import { useDoctors } from "../../hooks/role";
 
 export const DoctorSearchPage = () => {
@@ -24,64 +23,16 @@ const Main = () => {
     specialist: string;
     name: string;
   }>({ specialist: "All", name: "" });
-  const { data } = useDoctors();
-  console.log(data);
-  useEffect(() => {}, []);
-  const originalData = [
-    {
-      id: 1,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "adam",
-      specialist: Specialist.Oncologist,
-      description: "lorem ipsum dolor sit",
-    },
-    {
-      id: 2,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "jimmy",
-      specialist: Specialist.Psychiatrists,
-      description: "lorem ipsum dolor sit",
-    },
-    {
-      id: 3,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "cole",
-      specialist: Specialist.Veterinarian,
-      description: "lorem ipsum dolor sit",
-    },
-    {
-      id: 4,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "tim",
-      specialist: Specialist.Radiologist,
-      description: "lorem ipsum dolor sit",
-    },
-    {
-      id: 5,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "thomas",
-      specialist: Specialist.Psychiatrists,
-      description: "lorem ipsum dolor sit",
-    },
-    {
-      id: 6,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "toby",
-      specialist: Specialist.Gynaecologist,
-      description: "lorem ipsum dolor sit",
-    },
-    {
-      id: 7,
-      avatar: "https://placeimg.com/260/300/people",
-      name: "james",
-      specialist: Specialist.Audiologist,
-      description: "lorem ipsum dolor sit",
-    },
-  ];
+  const { data: originalData } = useDoctors();
+
   const [doctors, setDoctors] = useState<DoctorProps[]>(originalData);
 
+  useEffect(() => {
+    setDoctors(originalData);
+  }, [originalData]);
+
   const searchDoctor = () => {
-    const data = originalData.filter((doctor) => {
+    const data = originalData.filter((doctor: any) => {
       if (params.specialist === "All") {
         return doctor.name.includes(params.name);
       } else
@@ -143,9 +94,11 @@ const Main = () => {
       <DoctorWrapper>
         <h1>Doctors</h1>
         <ResultWrapper>
-          {doctors.map((item) => {
-            return AppointCard(item);
-          })}
+          {doctors && doctors.length
+            ? doctors.map((item) => {
+                return AppointCard(item);
+              })
+            : null}
         </ResultWrapper>
       </DoctorWrapper>
     </>
