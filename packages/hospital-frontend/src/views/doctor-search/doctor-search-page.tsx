@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ContainerBase, PageHeader } from "../../components/page-header";
 import PageFooter from "../../components/page-footer";
 import styled from "@emotion/styled";
@@ -7,6 +7,7 @@ import { SpecialistSelect } from "../../components/specialist-select";
 import { Button, Input } from "antd";
 import { AppointCard, DoctorProps } from "../../components/appoint-card";
 import { Specialist } from "../../models";
+import { useDoctors } from "../../hooks/role";
 
 export const DoctorSearchPage = () => {
   return (
@@ -23,7 +24,9 @@ const Main = () => {
     specialist: string;
     name: string;
   }>({ specialist: "All", name: "" });
-
+  const { data } = useDoctors();
+  console.log(data);
+  useEffect(() => {}, []);
   const originalData = [
     {
       id: 1,

@@ -3,19 +3,15 @@ import { useHttp } from "./http";
 import { useEffect } from "react";
 import { cleanObject } from "./index";
 import { DoctorModel, PatientModel } from "../models";
-export const useDoctor = (param?: Partial<DoctorModel>) => {
+export const useDoctors = () => {
   const client = useHttp();
-  const { run, ...result } = useAsync<DoctorModel>();
+  const { run, setData, ...result } = useAsync<any>();
   useEffect(() => {
-    run(
-      client(`doctor${param?.id}`, {
-        data: cleanObject(param || {}),
-        method: "put",
-      })
-    );
-  }, [client, param, run]);
+    run(client(`doctors`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  return result;
+  return { ...result };
 };
 
 export const usePatient = (param?: Partial<PatientModel>) => {

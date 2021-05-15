@@ -117,4 +117,11 @@ export class UserController {
     await doctorInfo.save()
     return { image: doctorInfo.certification }
   }
+
+  @Get('/doctors')
+  async getAllDoctors() {
+    const repo = getRepository(Doctor)
+    const result = await repo.findAndCount()
+    return result[0]
+  }
 }
