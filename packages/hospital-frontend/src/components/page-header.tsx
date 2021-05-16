@@ -63,6 +63,11 @@ const UserNav = () => {
               <Button type={"link"}>My Profile</Button>
             </Link>
           </Menu.Item>
+          <Menu.Item key={"dashboard"}>
+            <Link to="/dashboard">
+              <Button type={"link"}>My Dashboard</Button>
+            </Link>
+          </Menu.Item>
         </Menu>
       }
     >

@@ -17,7 +17,7 @@ const Root: React.FC = () => {
           <Route path="/login" exact component={UnauthenticatedApp} />
           <Route path="/profile" exact component={ProfilePage} />
           <Route path="/doctors" exact component={DoctorSearchPage} />
-          <Route path="/dashboard/:role" exact component={AppointmentPage} />
+          <Route path="/dashboard" exact component={AppointmentPage} />
           <Route path="/video/:roomId" exact component={VideoChatPage} />
           <Route path="/about" exact component={AboutPage} />
         </Switch>
