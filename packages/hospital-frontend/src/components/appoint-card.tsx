@@ -1,7 +1,10 @@
 import { Button, Card } from "antd";
 import React from "react";
 import styled from "@emotion/styled";
-import { success } from "../hooks/utils";
+import { error, success } from "../hooks/utils";
+import { useAuth } from "../context/auth-context";
+import { useHttp } from "../hooks/http";
+import { Role } from "../models";
 
 const path = process.env.REACT_APP_SOURCE_PATH;
 
@@ -16,7 +19,27 @@ export interface DoctorProps {
   description: string;
 }
 export const AppointCard = (props: DoctorProps) => {
-  const { avatar, name, doctorInfo } = props;
+  const { avatar, name, doctorInfo, id: doctorId } = props;
+  const { user } = useAuth();
+  const client = useHttp();
+  const makeAppointments = () => {
+    if (!user) {
+      error("please login first");
+      return;
+    }
+    if (user.role === Role.DOCTOR) {
+      error("only patient can make an appointment");
+      return;
+    }
+    client("appointment", {
+      method: "post",
+      data: { patientId: user.id, doctorId: doctorId },
+    }).then(() => {
+      success(
+        "successfully reserved,please go to your dashboard to check detail"
+      );
+    });
+  };
   return (
     <MemberCard
       key={name}
@@ -37,7 +60,7 @@ export const AppointCard = (props: DoctorProps) => {
         <ReserveButton
           type={"primary"}
           onClick={() => {
-            success("successfully reserved");
+            makeAppointments();
           }}
         >
           Reserve

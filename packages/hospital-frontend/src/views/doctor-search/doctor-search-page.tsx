@@ -32,13 +32,13 @@ const Main = () => {
   }, [originalData]);
 
   const searchDoctor = () => {
-    const data = originalData.filter((doctor: any) => {
+    const data = originalData.filter((doctor: DoctorProps) => {
       if (params.specialist === "All") {
         return doctor.name.includes(params.name);
       } else
         return (
           doctor.name.includes(params.name) &&
-          doctor.specialist.includes(params.specialist)
+          doctor.doctorInfo.specialty1.includes(params.specialist)
         );
     });
     setDoctors(data);
