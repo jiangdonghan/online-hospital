@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, Params, Post } from 'routing-controllers'
+import { Body, Get, HttpError, JsonController, Params, Post } from 'routing-controllers'
 import { Appointment } from '../entities'
 import { AppointmentService, AppointmentStatus } from '../services'
 import { Role } from '../../../common/model'
@@ -9,6 +9,16 @@ export class AppointmentController {
 
   @Post('/appointment')
   async createAppointment(@Body() params: { doctorId: number; patientId: number }) {
+    const existedAppointment = await Appointment.findOne({
+      where: {
+        doctorId: params.doctorId,
+        patientId: params.patientId,
+        status: AppointmentStatus.NotStarted,
+      },
+    })
+    if (existedAppointment) {
+      throw new HttpError(400, 'You have already booked this doctor')
+    }
     const appointment = new Appointment()
     appointment.doctorId = params.doctorId
     appointment.patientId = params.patientId

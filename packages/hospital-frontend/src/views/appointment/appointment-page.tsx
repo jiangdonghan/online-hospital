@@ -3,7 +3,7 @@ import { ContainerBase, PageHeader } from "../../components/page-header";
 import PageFooter from "../../components/page-footer";
 import styled from "@emotion/styled";
 import BannerImg from "../../assets/banner-dashboard.png";
-import { Button, Divider, Space, Table } from "antd";
+import { Button, Space, Table } from "antd";
 import { useHttp } from "../../hooks/http";
 import { useAuth } from "../../context/auth-context";
 import { Link } from "react-router-dom";
@@ -64,6 +64,7 @@ const UpcomingAppointment = () => {
           <Link to={`/appointment/${record.id}`}>
             <Button type={"primary"}>Join</Button>
           </Link>
+          <Button type={"default"}>Cancel</Button>
         </Space>
       ),
     },

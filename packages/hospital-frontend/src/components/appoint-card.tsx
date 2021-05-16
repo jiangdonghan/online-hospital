@@ -1,7 +1,7 @@
 import { Button, Card } from "antd";
 import React from "react";
 import styled from "@emotion/styled";
-import { error, success } from "../hooks/utils";
+import { success, warning } from "../hooks/utils";
 import { useAuth } from "../context/auth-context";
 import { useHttp } from "../hooks/http";
 import { Role } from "../models";
@@ -24,21 +24,23 @@ export const AppointCard = (props: DoctorProps) => {
   const client = useHttp();
   const makeAppointments = () => {
     if (!user) {
-      error("please login first");
+      warning("please login first");
       return;
     }
     if (user.role === Role.DOCTOR) {
-      error("only patient can make an appointment");
+      warning("only patient can make an appointment");
       return;
     }
     client("appointment", {
       method: "post",
       data: { patientId: user.id, doctorId: doctorId },
-    }).then(() => {
-      success(
-        "successfully reserved,please go to your dashboard to check detail"
-      );
-    });
+    })
+      .then(() => {
+        success(
+          "successfully reserved,please go to your dashboard to check detail"
+        );
+      })
+      .catch((error) => warning(error.message));
   };
   return (
     <MemberCard
