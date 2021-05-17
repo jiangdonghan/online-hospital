@@ -30,7 +30,7 @@ export const AppointmentPage = () => {
 const UpcomingAppointment = () => {
   const client = useHttp();
   const { user } = useAuth();
-  const { run, isLoading, retry } = useAsync();
+  const { run, isLoading } = useAsync();
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
 
