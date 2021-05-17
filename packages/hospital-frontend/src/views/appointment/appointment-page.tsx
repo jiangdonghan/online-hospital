@@ -8,6 +8,8 @@ import { useHttp } from "../../hooks/http";
 import { useAuth } from "../../context/auth-context";
 import { Link } from "react-router-dom";
 import { useAsync } from "../../hooks/use-async";
+import { success } from "../../hooks/utils";
+import moment from "moment";
 export const AppointmentPage = () => {
   return (
     <div>
@@ -28,7 +30,7 @@ export const AppointmentPage = () => {
 const UpcomingAppointment = () => {
   const client = useHttp();
   const { user } = useAuth();
-  const { run, isLoading } = useAsync();
+  const { run, isLoading, retry } = useAsync();
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
 
@@ -52,7 +54,8 @@ const UpcomingAppointment = () => {
       width: 320,
       render: (value: string) => (
         <>
-          <div>{value}</div>
+          {" "}
+          <div>{moment(Number(value)).format("YYYY-MM-DD HH:MM")}</div>
         </>
       ),
     },
@@ -64,7 +67,14 @@ const UpcomingAppointment = () => {
           <Link to={`/appointment/${record.id}`}>
             <Button type={"primary"}>Join</Button>
           </Link>
-          <Button type={"default"}>Cancel</Button>
+          <Button
+            type={"default"}
+            onClick={() => {
+              cancelAppointment(record.id);
+            }}
+          >
+            Cancel
+          </Button>
         </Space>
       ),
     },
@@ -82,6 +92,18 @@ const UpcomingAppointment = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  const cancelAppointment = (id: number) => {
+    run(client(`appointments/${id}/cancel`, { method: "POST" })).then(() => {
+      run(
+        client(`appointments/upcoming/role/${user?.role}/userId/${user?.id}`)
+      ).then((result: any) => {
+        setData(result.elements);
+        setCount(result.count);
+      });
+      success("Successfully cancelled");
+    });
+  };
   return (
     <Container>
       <Title>Upcoming {count} Appointments</Title>{" "}
@@ -123,7 +145,7 @@ const AppointmentHistory = () => {
       width: 320,
       render: (value: string) => (
         <>
-          <div>{value}</div>
+          <div>{moment(value).format("YYYY-MM-DD")}</div>
         </>
       ),
     },

@@ -1,7 +1,16 @@
-import { Body, Get, HttpError, JsonController, Params, Post } from 'routing-controllers'
+import {
+  Body,
+  Get,
+  HttpError,
+  JsonController,
+  Param,
+  Params,
+  Post,
+} from 'routing-controllers'
 import { Appointment } from '../entities'
 import { AppointmentService, AppointmentStatus } from '../services'
 import { Role } from '../../../common/model'
+import { now } from 'moment'
 
 @JsonController()
 export class AppointmentController {
@@ -23,6 +32,7 @@ export class AppointmentController {
     appointment.doctorId = params.doctorId
     appointment.patientId = params.patientId
     appointment.status = AppointmentStatus.NotStarted
+    appointment.startTs = now().toString()
     await appointment.save()
   }
 
@@ -40,5 +50,13 @@ export class AppointmentController {
   ) {
     const appointmentService = new AppointmentService(role)
     return await appointmentService.getAppointments(userId, AppointmentStatus.Finished)
+  }
+
+  @Post('/appointments/:id/cancel')
+  async cancelAppointment(@Param('id') id: number) {
+    const existedAppointment = await Appointment.findOne(id)
+    existedAppointment.status = AppointmentStatus.Cancelled
+    await existedAppointment.save()
+    return 'success'
   }
 }
