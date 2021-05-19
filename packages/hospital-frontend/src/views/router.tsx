@@ -18,7 +18,11 @@ const Root: React.FC = () => {
           <Route path="/profile" exact component={ProfilePage} />
           <Route path="/doctors" exact component={DoctorSearchPage} />
           <Route path="/dashboard" exact component={AppointmentPage} />
-          <Route path="/video/:roomId" exact component={VideoChatPage} />
+          <Route
+            path="/appointment/:appointmentId"
+            exact
+            component={VideoChatPage}
+          />
           <Route path="/about" exact component={AboutPage} />
         </Switch>
       </BrowserRouter>
