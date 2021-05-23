@@ -15,11 +15,14 @@ const MediaPlayer = (props: VideoPlayerProps) => {
   const container = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!container.current) return;
+    console.log(container.current);
     props.videoTrack?.play(container.current);
+    console.log("wrong");
     return () => {
       props.videoTrack?.stop();
     };
   }, [container, props.videoTrack]);
+
   useEffect(() => {
     props.audioTrack?.play();
     return () => {
@@ -30,7 +33,7 @@ const MediaPlayer = (props: VideoPlayerProps) => {
     <div
       ref={container}
       className="video-player"
-      style={{ width: "320px", height: "240px" }}
+      style={{ width: "100%", height: "100%" }}
     ></div>
   );
 };

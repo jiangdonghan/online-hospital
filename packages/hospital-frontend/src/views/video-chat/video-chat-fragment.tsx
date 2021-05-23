@@ -2,12 +2,23 @@ import useAgora from "../../hooks/useAgora";
 import { useParams } from "react-router-dom";
 import { Button } from "antd";
 import MediaPlayer from "../../components/media-player";
-import React from "react";
-import AgoraRTC from "agora-rtc-sdk-ng";
+import React, { useEffect, useState } from "react";
+import AgoraRTC, {
+  ILocalAudioTrack,
+  ILocalVideoTrack,
+  IRemoteAudioTrack,
+  IRemoteVideoTrack,
+} from "agora-rtc-sdk-ng";
+import styled from "@emotion/styled";
+import { warning } from "../../hooks/utils";
 
 const client = AgoraRTC.createClient({ codec: "h264", mode: "rtc" });
 const appid = "aad5eefdd7f9441aa461f7c0ce824e8c";
 
+interface track {
+  videoTrack: IRemoteVideoTrack | ILocalVideoTrack | undefined;
+  audioTrack: ILocalAudioTrack | IRemoteAudioTrack | undefined;
+}
 export const VideoChatFragment = () => {
   const {
     localAudioTrack,
@@ -19,31 +30,125 @@ export const VideoChatFragment = () => {
   } = useAgora(client);
   // @ts-ignore
   const { appointmentId } = useParams();
+  const [largeTrack, setLargeTrack] = useState<track>({
+    videoTrack: localVideoTrack,
+    audioTrack: localAudioTrack,
+  });
+  const [smallTrack, setSmallTrack] = useState<track>({
+    videoTrack: undefined,
+    audioTrack: undefined,
+  });
+  useEffect(() => {
+    setLargeTrack({
+      audioTrack: localAudioTrack,
+      videoTrack: localVideoTrack,
+    });
+    if (remoteUsers && remoteUsers[0]) {
+      setSmallTrack({
+        videoTrack: remoteUsers[0].videoTrack,
+        audioTrack: remoteUsers[0].audioTrack,
+      });
+    }
+  }, [remoteUsers, localVideoTrack, localAudioTrack]);
+
+  const switchScreen = () => {
+    if (!(joinState && remoteUsers && remoteUsers[0])) {
+      warning("user has not connected");
+      return;
+    }
+    const largeTrackTemp = largeTrack;
+    setLargeTrack(smallTrack);
+    setSmallTrack(largeTrackTemp);
+  };
   return (
     <div>
-      <Button onClick={() => join(appid, String(appointmentId))}>Join</Button>
-      <Button onClick={() => leave()}>Join</Button>
-      <div className="player-container">
-        <div className="local-player-wrapper">
-          <p className="local-player-text">
-            {localVideoTrack && `localTrack`}
-            {joinState && localVideoTrack ? `(${client.uid})` : ""}
-          </p>
-          <MediaPlayer
-            videoTrack={localVideoTrack}
-            audioTrack={localAudioTrack}
-          ></MediaPlayer>
-        </div>
-        {remoteUsers.map((user) => (
-          <div className="remote-player-wrapper" key={user.uid}>
-            <p className="remote-player-text">{`remoteVideo(${user.uid})`}</p>
+      <PlayerContainer>
+        <LargePlayerWrapper>
+          {localVideoTrack ? (
             <MediaPlayer
-              videoTrack={user.videoTrack}
-              audioTrack={user.audioTrack}
-            ></MediaPlayer>
-          </div>
-        ))}
-      </div>
+              videoTrack={largeTrack.videoTrack}
+              audioTrack={largeTrack.audioTrack}
+            />
+          ) : (
+            <JoinRequest fontSize={6}>
+              <p>Waiting for connect...</p>
+            </JoinRequest>
+          )}
+
+          <SmallPlayerWrapper>
+            {remoteUsers[0] ? (
+              <MediaPlayer
+                videoTrack={smallTrack.videoTrack}
+                audioTrack={smallTrack.audioTrack}
+              />
+            ) : (
+              <JoinRequest fontSize={3}>
+                <p>Waiting for connect...</p>
+              </JoinRequest>
+            )}
+          </SmallPlayerWrapper>
+          <ToolBar>
+            <Button onClick={() => join(appid, String(appointmentId))}>
+              Join
+            </Button>
+            <Button onClick={() => leave()}>Leave</Button>
+            <Button onClick={() => switchScreen()}>Switch</Button>
+          </ToolBar>
+        </LargePlayerWrapper>
+
+        <RecordWrapper>
+          <Title>Prescription</Title>
+        </RecordWrapper>
+      </PlayerContainer>
     </div>
   );
 };
+
+const PlayerContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const LargePlayerWrapper = styled.div`
+  position: relative;
+  width: 80rem;
+  height: 60rem;
+`;
+
+const SmallPlayerWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30rem;
+  height: 22.5rem;
+  border: 1px solid #374545;
+`;
+
+const JoinRequest = styled.div<{ fontSize: number }>`
+  height: 100%;
+  width: 100%;
+  background: #f1f1f1;
+  padding-top: 30%;
+  p {
+    text-align: center;
+    font-size: ${(props) => props.fontSize}rem;
+  }
+`;
+
+const ToolBar = styled.div`
+  background: red;
+  height: 6rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const RecordWrapper = styled.div`
+  height: 60rem;
+  width: 36rem;
+  background: #f1f1f1;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+`;
