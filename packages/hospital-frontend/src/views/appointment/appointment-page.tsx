@@ -100,7 +100,7 @@ const UpcomingAppointment = () => {
   }, [user]);
 
   const cancelAppointment = (id: number) => {
-    run(client(`appointments/${id}/cancel`, { method: "POST" })).then(() => {
+    run(client(`appointment/${id}/cancel`, { method: "POST" })).then(() => {
       run(
         client(`appointments/upcoming/role/${user?.role}/userId/${user?.id}`)
       ).then((result: any) => {

@@ -83,6 +83,7 @@ CREATE TABLE prescription
     appointmentId   int          NOT NULL,
     symptom          text         NULL,
     advice          text         NULL,
+    diagnosis          text         NULL,
     createdAt    timestamp    DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updatedAt    timestamp    DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
 );

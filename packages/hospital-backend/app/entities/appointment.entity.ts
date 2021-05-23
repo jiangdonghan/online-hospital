@@ -1,4 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { PrescriptionModel } from '../services'
+import { Prescription } from './prescription.entity'
 
 @Entity('appointment')
 export class Appointment extends BaseEntity {
@@ -28,4 +30,27 @@ export class Appointment extends BaseEntity {
 
   @Column()
   updatedAt: Date
+
+  async savePrescription(params: PrescriptionModel) {
+    const prescription = await Prescription.findOne({ where: { appointmentId: this.id } })
+    prescription.diagnosis = params.diagnosis
+    prescription.symptom = params.symptom
+    prescription.advice = params.advice
+    await prescription.save()
+    return prescription
+  }
+
+  async preparePrescription() {
+    const prescription = await Prescription.findOne({ where: { appointmentId: this.id } })
+    if (!prescription) {
+      const newPrescription = new Prescription()
+      newPrescription.doctorId = this.doctorId
+      newPrescription.patientId = this.patientId
+      newPrescription.appointmentId = this.id
+      await newPrescription.save()
+      await newPrescription.reload()
+      return newPrescription
+    }
+    return prescription
+  }
 }

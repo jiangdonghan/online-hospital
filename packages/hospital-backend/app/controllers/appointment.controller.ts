@@ -6,9 +6,10 @@ import {
   Param,
   Params,
   Post,
+  Put,
 } from 'routing-controllers'
 import { Appointment } from '../entities'
-import { AppointmentService, AppointmentStatus } from '../services'
+import { AppointmentService, AppointmentStatus, PrescriptionModel } from '../services'
 import { Role } from '../../../common/model'
 import { now } from 'moment'
 
@@ -52,11 +53,26 @@ export class AppointmentController {
     return await appointmentService.getAppointments(userId, AppointmentStatus.Finished)
   }
 
-  @Post('/appointments/:id/cancel')
+  @Post('/appointment/:id/cancel')
   async cancelAppointment(@Param('id') id: number) {
     const existedAppointment = await Appointment.findOne(id)
     existedAppointment.status = AppointmentStatus.Cancelled
     await existedAppointment.save()
     return 'success'
+  }
+
+  @Put('/appointment/:appointmentId/prescription')
+  async savePrescription(
+    @Param('appointmentId') appointmentId: number,
+    @Body() params: PrescriptionModel,
+  ) {
+    const appointment = await Appointment.findOne(appointmentId)
+    return await appointment.savePrescription(params)
+  }
+
+  @Get('/appointment/:appointmentId/prescription')
+  async getPrescription(@Param('appointmentId') id: number) {
+    const appointment = await Appointment.findOne(id)
+    return await appointment.preparePrescription()
   }
 }

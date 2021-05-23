@@ -11,6 +11,7 @@ import AgoraRTC, {
 } from "agora-rtc-sdk-ng";
 import styled from "@emotion/styled";
 import { warning } from "../../hooks/utils";
+import { PrescriptionFragment } from "./prescription-fragment";
 
 const client = AgoraRTC.createClient({ codec: "h264", mode: "rtc" });
 const appid = "aad5eefdd7f9441aa461f7c0ce824e8c";
@@ -97,7 +98,7 @@ export const VideoChatFragment = () => {
         </LargePlayerWrapper>
 
         <RecordWrapper>
-          <Title>Prescription</Title>
+          <PrescriptionFragment />
         </RecordWrapper>
       </PlayerContainer>
     </div>
@@ -136,7 +137,7 @@ const JoinRequest = styled.div<{ fontSize: number }>`
 `;
 
 const ToolBar = styled.div`
-  background: red;
+  background: #716f6f;
   height: 6rem;
   display: flex;
   justify-content: space-evenly;
@@ -144,11 +145,8 @@ const ToolBar = styled.div`
 `;
 
 const RecordWrapper = styled.div`
-  height: 60rem;
+  position: relative;
+  height: 66rem;
   width: 36rem;
   background: #f1f1f1;
-`;
-
-const Title = styled.h1`
-  text-align: center;
 `;
