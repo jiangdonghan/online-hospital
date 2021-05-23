@@ -4,15 +4,21 @@ import { useHttp } from "./http";
 import { Prescription } from "../views/video-chat/prescription-fragment";
 import { success } from "./utils";
 
-export const usePrescription = (appointmentId: number) => {
-  const [interval, setInterval] = useState(20);
+export const usePrescription = (appointmentId: number, count = 0) => {
+  const [intervalCount, setIntervalCount] = useState(count);
 
   const { run, setData, data, ...result } = useAsync<Prescription>();
   const client = useHttp();
   useEffect(() => {
+    if (intervalCount) {
+      console.log(intervalCount);
+      setInterval(() => {
+        run(client(`appointment/${appointmentId}/prescription`));
+      }, intervalCount);
+    }
     run(client(`appointment/${appointmentId}/prescription`));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appointmentId, interval]);
+  }, [appointmentId, intervalCount]);
 
   const savePrescription = (params: Prescription) => {
     run(
@@ -25,5 +31,12 @@ export const usePrescription = (appointmentId: number) => {
     });
   };
 
-  return { data, setInterval, setData, ...result, savePrescription };
+  return {
+    data,
+    setInterval,
+    setData,
+    savePrescription,
+    setIntervalCount,
+    ...result,
+  };
 };

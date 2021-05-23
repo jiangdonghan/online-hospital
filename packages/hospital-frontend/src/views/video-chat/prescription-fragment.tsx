@@ -59,7 +59,7 @@ export const DoctorPrescriptionFragment = () => {
 export const PatientPrescriptionFragment = () => {
   // @ts-ignore
   const { appointmentId } = useParams();
-  let { data: prescription, isLoading } = usePrescription(appointmentId);
+  let { data: prescription, isLoading } = usePrescription(appointmentId, 5000);
   return (
     <div>
       <Title>Prescription</Title>
