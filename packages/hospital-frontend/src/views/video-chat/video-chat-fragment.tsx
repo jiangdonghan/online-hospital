@@ -1,5 +1,5 @@
 import useAgora from "../../hooks/useAgora";
-import { useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Button } from "antd";
 import MediaPlayer from "../../components/media-player";
 import React, { useEffect, useState } from "react";
@@ -10,8 +10,9 @@ import AgoraRTC, {
   IRemoteVideoTrack,
 } from "agora-rtc-sdk-ng";
 import styled from "@emotion/styled";
-import { warning } from "../../hooks/utils";
+import { success, warning } from "../../hooks/utils";
 import { PrescriptionFragment } from "./prescription-fragment";
+import { useHttp } from "../../hooks/http";
 
 const client = AgoraRTC.createClient({ codec: "h264", mode: "rtc" });
 const appid = "aad5eefdd7f9441aa461f7c0ce824e8c";
@@ -31,6 +32,8 @@ export const VideoChatFragment = () => {
   } = useAgora(client);
   // @ts-ignore
   const { appointmentId } = useParams();
+  const history = useHistory();
+  const request = useHttp();
   const [largeTrack, setLargeTrack] = useState<track>({
     videoTrack: localVideoTrack,
     audioTrack: localAudioTrack,
@@ -61,6 +64,17 @@ export const VideoChatFragment = () => {
     setLargeTrack(smallTrack);
     setSmallTrack(largeTrackTemp);
   };
+
+  const finishMeeting = () => {
+    request(`appointment/${appointmentId}/finish`, { method: "POST" })
+      .then(() => {
+        success("Appointment Finished");
+      })
+      .then(() => {
+        history.replace("/dashboard");
+      });
+  };
+
   return (
     <div>
       <PlayerContainer>
@@ -94,6 +108,7 @@ export const VideoChatFragment = () => {
             </Button>
             <Button onClick={() => leave()}>Leave</Button>
             <Button onClick={() => switchScreen()}>Switch</Button>
+            <Button onClick={() => finishMeeting()}>Finish Meeting</Button>
           </ToolBar>
         </LargePlayerWrapper>
 

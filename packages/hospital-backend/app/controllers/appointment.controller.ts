@@ -61,6 +61,15 @@ export class AppointmentController {
     return 'success'
   }
 
+  @Post('/appointment/:id/finish')
+  async finishAppointment(@Param('id') id: number) {
+    const existedAppointment = await Appointment.findOne(id)
+    existedAppointment.status = AppointmentStatus.Finished
+    existedAppointment.endTs = now().toString()
+    await existedAppointment.save()
+    return 'success'
+  }
+
   @Put('/appointment/:appointmentId/prescription')
   async savePrescription(
     @Param('appointmentId') appointmentId: number,

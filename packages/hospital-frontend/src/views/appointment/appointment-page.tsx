@@ -157,7 +157,7 @@ const AppointmentHistory = () => {
       width: 260,
       render: (value: string) => (
         <>
-          <div>{moment(value).format("YYYY-MM-DD")}</div>
+          <div>{moment(Number(value)).format("YYYY-MM-DD HH:MM")}</div>
         </>
       ),
     },
