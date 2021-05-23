@@ -24,12 +24,11 @@ const Main = () => {
     name: string;
   }>({ specialist: "All", name: "" });
   const { data: originalData } = useDoctors();
-
-  const [doctors, setDoctors] = useState<DoctorProps[]>(originalData);
-
   useEffect(() => {
     setDoctors(originalData);
   }, [originalData]);
+
+  const [doctors, setDoctors] = useState<DoctorProps[]>(originalData);
 
   const searchDoctor = () => {
     const data = originalData.filter((doctor: DoctorProps) => {
@@ -56,7 +55,7 @@ const Main = () => {
       </Banner>
       <SearchBar>
         <SpecialistSelect
-          defaultOptionName={"All"}
+          defaultoptionname={"All"}
           width={"300px"}
           value={params.specialist}
           onChange={(value) => {

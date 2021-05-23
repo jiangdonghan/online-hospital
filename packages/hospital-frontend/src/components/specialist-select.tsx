@@ -5,12 +5,12 @@ import React from "react";
 type SelectProps = React.ComponentProps<typeof Select>;
 
 interface SpecialistSelectProps extends SelectProps {
-  defaultOptionName?: string;
+  defaultoptionname?: string;
   width: string;
 }
 
 export const SpecialistSelect = (props: SpecialistSelectProps) => {
-  const { defaultOptionName, width } = props;
+  const { defaultoptionname, width } = props;
   const SpecialistOptions = Object.keys(Specialist).map((item) => {
     return (
       <Select.Option key={item} value={item}>
@@ -23,10 +23,10 @@ export const SpecialistSelect = (props: SpecialistSelectProps) => {
     <Select
       {...props}
       style={{ width: width }}
-      defaultValue={defaultOptionName ? defaultOptionName : ""}
+      defaultValue={defaultoptionname ? defaultoptionname : ""}
     >
-      {defaultOptionName ? (
-        <Select.Option value={"All"}>{defaultOptionName}</Select.Option>
+      {defaultoptionname ? (
+        <Select.Option value={"All"}>{defaultoptionname}</Select.Option>
       ) : null}
       {SpecialistOptions}
     </Select>
