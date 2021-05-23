@@ -37,21 +37,27 @@ const UpcomingAppointment = () => {
   const columns = [
     {
       title: "Doctor Name",
-      dataIndex: "name",
-      key: "name",
-      width: 320,
+      dataIndex: "doctorName",
+      key: "doctorName",
+      width: 260,
     },
     {
       title: "Specialist",
       dataIndex: "specialist",
       key: "specialist",
-      width: 320,
+      width: 260,
+    },
+    {
+      title: "Patient Name",
+      dataIndex: "patientName",
+      key: "patientName",
+      width: 260,
     },
     {
       title: "Start Time",
       key: "startTs",
       dataIndex: "startTs",
-      width: 320,
+      width: 260,
       render: (value: string) => (
         <>
           {" "}
@@ -128,21 +134,27 @@ const AppointmentHistory = () => {
   const columns = [
     {
       title: "Doctor Name",
-      dataIndex: "name",
-      key: "name",
-      width: 320,
+      dataIndex: "doctorName",
+      key: "doctorName",
+      width: 260,
     },
     {
       title: "Specialist",
       dataIndex: "specialist",
       key: "specialist",
-      width: 320,
+      width: 260,
+    },
+    {
+      title: "Patient Name",
+      dataIndex: "patientName",
+      key: "patientName",
+      width: 260,
     },
     {
       title: "End Time",
       key: "endTs",
       dataIndex: "endTs",
-      width: 320,
+      width: 260,
       render: (value: string) => (
         <>
           <div>{moment(value).format("YYYY-MM-DD")}</div>
