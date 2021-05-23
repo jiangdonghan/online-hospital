@@ -14,7 +14,6 @@ export interface Prescription {
 export const DoctorPrescriptionFragment = () => {
   // @ts-ignore
   const { appointmentId } = useParams();
-  //TODO use nexttick
   let {
     data: prescription,
     setData: setPrescription,
@@ -28,30 +27,32 @@ export const DoctorPrescriptionFragment = () => {
   return (
     <div>
       <Title>Prescription</Title>
-      <Form
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 14 }}
-        layout="horizontal"
-        size={"middle"}
-        initialValues={prescription as Prescription}
-        onValuesChange={setPrescription}
-        onFinish={onSubmit}
-      >
-        <Spin spinning={isLoading}>
-          <Form.Item label="symptom" name={"symptom"}>
-            <Input.TextArea size={"large"} style={{ height: 150 }} />
-          </Form.Item>
-          <Form.Item label="advice" name={"advice"}>
-            <Input.TextArea size={"large"} style={{ height: 150 }} />
-          </Form.Item>
-          <Form.Item label="diagnosis" name={"diagnosis"}>
-            <Input.TextArea size={"large"} style={{ height: 150 }} />
-          </Form.Item>
-        </Spin>
-        <SaveBar>
-          <Button htmlType={"submit"}>Save</Button>
-        </SaveBar>
-      </Form>
+      {prescription && (
+        <Form
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+          size={"middle"}
+          initialValues={prescription as Prescription}
+          onValuesChange={setPrescription}
+          onFinish={onSubmit}
+        >
+          <Spin spinning={isLoading}>
+            <Form.Item label="symptom" name={"symptom"}>
+              <Input.TextArea size={"large"} style={{ height: 150 }} />
+            </Form.Item>
+            <Form.Item label="advice" name={"advice"}>
+              <Input.TextArea size={"large"} style={{ height: 150 }} />
+            </Form.Item>
+            <Form.Item label="diagnosis" name={"diagnosis"}>
+              <Input.TextArea size={"large"} style={{ height: 150 }} />
+            </Form.Item>
+          </Spin>
+          <SaveBar>
+            <Button htmlType={"submit"}>Save</Button>
+          </SaveBar>
+        </Form>
+      )}
     </div>
   );
 };

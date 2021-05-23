@@ -1,6 +1,6 @@
 import useAgora from "../../hooks/useAgora";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { Button } from "antd";
+import { useHistory, useParams } from "react-router-dom";
+import { Button, Modal } from "antd";
 import MediaPlayer from "../../components/media-player";
 import React, { useEffect, useState } from "react";
 import AgoraRTC, {
@@ -42,6 +42,7 @@ export const VideoChatFragment = () => {
     videoTrack: undefined,
     audioTrack: undefined,
   });
+  const [cancelVisible, setCancelVisible] = useState(false);
   useEffect(() => {
     setLargeTrack({
       audioTrack: localAudioTrack,
@@ -73,6 +74,21 @@ export const VideoChatFragment = () => {
       .then(() => {
         history.replace("/dashboard");
       });
+  };
+
+  const ConfirmModal = () => {
+    return (
+      <Modal
+        visible={cancelVisible}
+        title={"Confirm"}
+        onOk={() => finishMeeting()}
+        onCancel={() => {
+          setCancelVisible(false);
+        }}
+      >
+        Are you sure you want to finish the appointment
+      </Modal>
+    );
   };
 
   return (
@@ -108,8 +124,11 @@ export const VideoChatFragment = () => {
             </Button>
             <Button onClick={() => leave()}>Leave</Button>
             <Button onClick={() => switchScreen()}>Switch</Button>
-            <Button onClick={() => finishMeeting()}>Finish Meeting</Button>
+            <Button onClick={() => setCancelVisible(true)}>
+              Finish Meeting
+            </Button>
           </ToolBar>
+          <ConfirmModal />
         </LargePlayerWrapper>
 
         <RecordWrapper>
