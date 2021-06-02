@@ -1,5 +1,5 @@
-import { Button, Card } from "antd";
-import React from "react";
+import { Button, Card, DatePicker, Modal } from "antd";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { success, warning } from "../hooks/utils";
 import { useAuth } from "../context/auth-context";
@@ -21,7 +21,12 @@ export interface DoctorProps {
 export const AppointCard = (props: DoctorProps) => {
   const { avatar, name, doctorInfo, id: doctorId } = props;
   const { user } = useAuth();
+  const [reserveVisible, setReserveVisible] = useState(false);
+  const [Date, setDate] = useState("");
   const client = useHttp();
+  const confirmDate = (value: any) => {
+    console.log(value);
+  };
   const makeAppointments = () => {
     if (!user) {
       warning("please login first");
@@ -42,6 +47,15 @@ export const AppointCard = (props: DoctorProps) => {
       })
       .catch((error) => warning(error.message));
   };
+
+  const ReserveModal = () => {
+    return (
+      <Modal visible={reserveVisible} title={"Choose Appointment Time"}>
+        <DatePicker showTime onOk={confirmDate} />
+      </Modal>
+    );
+  };
+
   return (
     <MemberCard
       key={name}
@@ -62,7 +76,7 @@ export const AppointCard = (props: DoctorProps) => {
         <ReserveButton
           type={"primary"}
           onClick={() => {
-            makeAppointments();
+            setReserveVisible(true);
           }}
         >
           Reserve
