@@ -1,5 +1,22 @@
 # Online Hospital Project for IFN711
 
+## Demo
+
+## Login Page
+![](./static/login.png)
+
+## Index page
+![](./static/demo-index.png)
+![](./static/demo-index2.png)
+![](./static/demo-index3.png)
+## Meeting page
+![](./static/meeting.png)
+
+## Appointment page
+![](./static/appointment.png)
+
+# Build Setup
+
 ## Development
 This monorepo was built using TypeScript, Node.js and React.
 All backend and frontend in the same monorepo
