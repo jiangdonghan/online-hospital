@@ -81,31 +81,3 @@ CICD： Docker + Github Actions
     * `feat: add xxx function`
     * `fix: fix xxx problem`
 * reference [《Contributing to Angular - Commit Message Guidelines》](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines)
-
-## Plan
-
-| Category | Function | Workload | Start Date | Expected End Date | End Date  | Priority | Done
-| :-- | :-- | :--: | :--: | :--: | :--: | :--: | :--: |
-| **frontend** | 页面框架搭建 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 用户登陆页 | 3d | xxxx | xxxx | xxxx | High | No |
-| **backend** | 用户登录功能 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 首页 | 5d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 医生认证页 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 医生信息页 | 3d | xxxx | xxxx | xxxx | High | No |
-| **backend** | 医生认证 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 用户信息页 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 用户搜索预约医生 | 5d | xxxx | xxxx | xxxx | High | No |
-| **backend** | 预约医生功能 | 5d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 音视频聊天页 | 5d | xxxx | xxxx | xxxx | High | No |
-| **backend** | 音视频聊天 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 医生开具电子处方页 | 5d | xxxx | xxxx | xxxx | High | No |
-| **backend** | 电子处方（保存，邮件发送） | 5d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 用户展示所有电子处方页 | 5d | xxxx | xxxx | xxxx | High | No |
-| **deploy** | 发布到线上服务器 | 3d | xxxx | xxxx | xxxx | High | No |
-| **frontend** | 医生评价页面 | 3d | xxxx | xxxx | xxxx | Mid | No |
-| **backend** | 医生评价 | 3d | xxxx | xxxx | xxxx | Mid | No |
-| **frontend** | 在线会话 | 5d | xxxx | xxxx | xxxx | Mid | No |
-| **backend** | 在线会话 | 3d | xxxx | xxxx | xxxx | Mid | No |
-| **frontend** | 送药服务 | 10d | xxxx | xxxx | xxxx | Low | No |
-| **frontend** | 医疗信息科普 | 5d | xxxx | xxxx | xxxx | Low | No |
-
